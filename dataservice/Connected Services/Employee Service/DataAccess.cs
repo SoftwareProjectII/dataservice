@@ -17,6 +17,12 @@ namespace dataservice.Connected_Services.Employee_Service
             return Employees.Values.ToList();
         }
 
+        public async static Task<List<Employee>> GetEmployeesByReportsTo(int id)
+        {
+            await refreshIfEmployeesEmpty();
+            return Employees.Values.Where(x => x.ReportsTo == id).ToList();
+        }
+
         public async static Task<Employee> GetEmployeeByID(int id)
         {
             await refreshIfEmployeesEmpty();

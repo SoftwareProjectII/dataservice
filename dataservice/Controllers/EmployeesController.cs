@@ -26,19 +26,25 @@ namespace dataservice.Controllers
         {
             return await DataAccess.GetEmployeeByID(id);
         }
-        
+
+        [HttpGet("m{id}", Name = "GetByManager")]
+        public async Task<List<Employee>> GetByReportsTo(int id)
+        {
+            return await DataAccess.GetEmployeesByReportsTo(id);
+        }
+
         // POST: api/Employees
         //[HttpPost]
         //public void Post([FromBody]string value)
         //{
         //}
-        
+
         //// PUT: api/Employees/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody]string value)
         //{
         //}
-        
+
         //// DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]
         //public void Delete(int id)
