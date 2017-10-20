@@ -28,8 +28,9 @@ namespace dataservice.Connected_Services.Employee_Service
             Employees = new Dictionary<int, Employee>();
             IEnumerable<Employee> test = await context.Employees.AddQueryOption("$select", "EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, ReportsTo").ExecuteAsync();
             foreach (Employee emp in test)
-            {
-                Employees[emp.EmployeeID] = emp;
+            {                
+                Employees[emp.EmployeeID] = new Employee {EmployeeID = emp.EmployeeID, LastName = emp.LastName, FirstName = emp.FirstName,
+                    Title = emp.Title, TitleOfCourtesy = emp.TitleOfCourtesy, ReportsTo = emp.ReportsTo };
             }
         }
 

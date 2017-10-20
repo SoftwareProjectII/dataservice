@@ -14,9 +14,8 @@ namespace dataservice
 {
     public class Program
     {
-        public async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            await DataAccess.refreshEmployees();
             BuildWebHost(args).Run();
         }
 
