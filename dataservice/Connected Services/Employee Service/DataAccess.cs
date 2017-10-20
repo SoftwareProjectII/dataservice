@@ -1,10 +1,9 @@
-﻿using NorthwindModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dataservice.Connected_Services.Employee_Service
+namespace NorthwindModel
 {
     public static class DataAccess
     {
