@@ -12,10 +12,6 @@
 // Generation date: 19/10/17 20:06:22
 namespace NorthwindModel
 {
-
-    /// <summary>
-    /// There are no comments for NorthwindEntities in the schema.
-    /// </summary>
     public partial class NorthwindEntities : global::System.Data.Services.Client.DataServiceContext
     {
         /// <summary>
@@ -475,12 +471,6 @@ namespace NorthwindModel
     [global::System.Data.Services.Common.DataServiceKeyAttribute("EmployeeID")]
     public partial class Employee : global::System.ComponentModel.INotifyPropertyChanged
     {
-        /// <summary>
-        /// Create a new Employee object.
-        /// </summary>
-        /// <param name="employeeID">Initial value of EmployeeID.</param>
-        /// <param name="lastName">Initial value of LastName.</param>
-        /// <param name="firstName">Initial value of FirstName.</param>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public static Employee CreateEmployee(int employeeID, string lastName, string firstName)
         {
@@ -489,10 +479,7 @@ namespace NorthwindModel
             employee.LastName = lastName;
             employee.FirstName = firstName;
             return employee;
-        }
-        /// <summary>
-        /// There are no comments for Property EmployeeID in the schema.
-        /// </summary>
+        }       
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int EmployeeID
         {
@@ -511,10 +498,7 @@ namespace NorthwindModel
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _EmployeeID;
         partial void OnEmployeeIDChanging(int value);
-        partial void OnEmployeeIDChanged();
-        /// <summary>
-        /// There are no comments for Property LastName in the schema.
-        /// </summary>
+        partial void OnEmployeeIDChanged();        
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string LastName
         {
@@ -534,9 +518,7 @@ namespace NorthwindModel
         private string _LastName;
         partial void OnLastNameChanging(string value);
         partial void OnLastNameChanged();
-        /// <summary>
-        /// There are no comments for Property FirstName in the schema.
-        /// </summary>
+        
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string FirstName
         {
@@ -556,9 +538,6 @@ namespace NorthwindModel
         private string _FirstName;
         partial void OnFirstNameChanging(string value);
         partial void OnFirstNameChanged();
-        /// <summary>
-        /// There are no comments for Property Title in the schema.
-        /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string Title
         {
@@ -578,9 +557,7 @@ namespace NorthwindModel
         private string _Title;
         partial void OnTitleChanging(string value);
         partial void OnTitleChanged();
-        /// <summary>
-        /// There are no comments for Property TitleOfCourtesy in the schema.
-        /// </summary>
+        
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string TitleOfCourtesy
         {
@@ -600,258 +577,7 @@ namespace NorthwindModel
         private string _TitleOfCourtesy;
         partial void OnTitleOfCourtesyChanging(string value);
         partial void OnTitleOfCourtesyChanged();
-        /// <summary>
-        /// There are no comments for Property BirthDate in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public global::System.Nullable<global::System.DateTime> BirthDate
-        {
-            get
-            {
-                return this._BirthDate;
-            }
-            set
-            {
-                this.OnBirthDateChanging(value);
-                this._BirthDate = value;
-                this.OnBirthDateChanged();
-                this.OnPropertyChanged("BirthDate");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private global::System.Nullable<global::System.DateTime> _BirthDate;
-        partial void OnBirthDateChanging(global::System.Nullable<global::System.DateTime> value);
-        partial void OnBirthDateChanged();
-        /// <summary>
-        /// There are no comments for Property HireDate in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public global::System.Nullable<global::System.DateTime> HireDate
-        {
-            get
-            {
-                return this._HireDate;
-            }
-            set
-            {
-                this.OnHireDateChanging(value);
-                this._HireDate = value;
-                this.OnHireDateChanged();
-                this.OnPropertyChanged("HireDate");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private global::System.Nullable<global::System.DateTime> _HireDate;
-        partial void OnHireDateChanging(global::System.Nullable<global::System.DateTime> value);
-        partial void OnHireDateChanged();
-        /// <summary>
-        /// There are no comments for Property Address in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string Address
-        {
-            get
-            {
-                return this._Address;
-            }
-            set
-            {
-                this.OnAddressChanging(value);
-                this._Address = value;
-                this.OnAddressChanged();
-                this.OnPropertyChanged("Address");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _Address;
-        partial void OnAddressChanging(string value);
-        partial void OnAddressChanged();
-        /// <summary>
-        /// There are no comments for Property City in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string City
-        {
-            get
-            {
-                return this._City;
-            }
-            set
-            {
-                this.OnCityChanging(value);
-                this._City = value;
-                this.OnCityChanged();
-                this.OnPropertyChanged("City");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _City;
-        partial void OnCityChanging(string value);
-        partial void OnCityChanged();
-        /// <summary>
-        /// There are no comments for Property Region in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string Region
-        {
-            get
-            {
-                return this._Region;
-            }
-            set
-            {
-                this.OnRegionChanging(value);
-                this._Region = value;
-                this.OnRegionChanged();
-                this.OnPropertyChanged("Region");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _Region;
-        partial void OnRegionChanging(string value);
-        partial void OnRegionChanged();
-        /// <summary>
-        /// There are no comments for Property PostalCode in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string PostalCode
-        {
-            get
-            {
-                return this._PostalCode;
-            }
-            set
-            {
-                this.OnPostalCodeChanging(value);
-                this._PostalCode = value;
-                this.OnPostalCodeChanged();
-                this.OnPropertyChanged("PostalCode");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _PostalCode;
-        partial void OnPostalCodeChanging(string value);
-        partial void OnPostalCodeChanged();
-        /// <summary>
-        /// There are no comments for Property Country in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string Country
-        {
-            get
-            {
-                return this._Country;
-            }
-            set
-            {
-                this.OnCountryChanging(value);
-                this._Country = value;
-                this.OnCountryChanged();
-                this.OnPropertyChanged("Country");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _Country;
-        partial void OnCountryChanging(string value);
-        partial void OnCountryChanged();
-        /// <summary>
-        /// There are no comments for Property HomePhone in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string HomePhone
-        {
-            get
-            {
-                return this._HomePhone;
-            }
-            set
-            {
-                this.OnHomePhoneChanging(value);
-                this._HomePhone = value;
-                this.OnHomePhoneChanged();
-                this.OnPropertyChanged("HomePhone");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _HomePhone;
-        partial void OnHomePhoneChanging(string value);
-        partial void OnHomePhoneChanged();
-        /// <summary>
-        /// There are no comments for Property Extension in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string Extension
-        {
-            get
-            {
-                return this._Extension;
-            }
-            set
-            {
-                this.OnExtensionChanging(value);
-                this._Extension = value;
-                this.OnExtensionChanged();
-                this.OnPropertyChanged("Extension");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _Extension;
-        partial void OnExtensionChanging(string value);
-        partial void OnExtensionChanged();
-        /// <summary>
-        /// There are no comments for Property Photo in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public byte[] Photo
-        {
-            get
-            {
-                if ((this._Photo != null))
-                {
-                    return ((byte[])(this._Photo.Clone()));
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set
-            {
-                this.OnPhotoChanging(value);
-                this._Photo = value;
-                this.OnPhotoChanged();
-                this.OnPropertyChanged("Photo");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private byte[] _Photo;
-        partial void OnPhotoChanging(byte[] value);
-        partial void OnPhotoChanged();
-        /// <summary>
-        /// There are no comments for Property Notes in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string Notes
-        {
-            get
-            {
-                return this._Notes;
-            }
-            set
-            {
-                this.OnNotesChanging(value);
-                this._Notes = value;
-                this.OnNotesChanged();
-                this.OnPropertyChanged("Notes");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _Notes;
-        partial void OnNotesChanging(string value);
-        partial void OnNotesChanged();
-        /// <summary>
-        /// There are no comments for Property ReportsTo in the schema.
-        /// </summary>
+
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public global::System.Nullable<int> ReportsTo
         {
@@ -870,68 +596,8 @@ namespace NorthwindModel
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Nullable<int> _ReportsTo;
         partial void OnReportsToChanging(global::System.Nullable<int> value);
-        partial void OnReportsToChanged();
-        /// <summary>
-        /// There are no comments for Property PhotoPath in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public string PhotoPath
-        {
-            get
-            {
-                return this._PhotoPath;
-            }
-            set
-            {
-                this.OnPhotoPathChanging(value);
-                this._PhotoPath = value;
-                this.OnPhotoPathChanged();
-                this.OnPropertyChanged("PhotoPath");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private string _PhotoPath;
-        partial void OnPhotoPathChanging(string value);
-        partial void OnPhotoPathChanged();
-        /// <summary>
-        /// There are no comments for Employees1 in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public global::System.Data.Services.Client.DataServiceCollection<Employee> Employees1
-        {
-            get
-            {
-                return this._Employees1;
-            }
-            set
-            {
-                this._Employees1 = value;
-                this.OnPropertyChanged("Employees1");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private global::System.Data.Services.Client.DataServiceCollection<Employee> _Employees1 = new global::System.Data.Services.Client.DataServiceCollection<Employee>(null, global::System.Data.Services.Client.TrackingMode.None);
-        /// <summary>
-        /// There are no comments for Employee1 in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public Employee Employee1
-        {
-            get
-            {
-                return this._Employee1;
-            }
-            set
-            {
-                this._Employee1 = value;
-                this.OnPropertyChanged("Employee1");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        private Employee _Employee1;
-        /// <summary>
-        /// There are no comments for Orders in the schema.
-        /// </summary>        
+        partial void OnReportsToChanged();       
+          
         public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected virtual void OnPropertyChanged(string property)
