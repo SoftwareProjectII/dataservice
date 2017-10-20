@@ -9,29 +9,36 @@ namespace dataservice.Connected_Services.Employee_Service
     public static class DataAccess
     {
         public static NorthwindEntities context = new NorthwindEntities(new Uri("http://services.odata.org/V3/Northwind/Northwind.svc"));
-        public static List<Employee> Employees
+        private static Dictionary<int, Employee> Employees = null;
+
+        public async static Task<List<Employee>> GetEmployees()
         {
-            get
-            {
-                if (Employees == null)
-                {
-                    refreshEmployees();
-                }
-                return Employees;
-            }                
-            set
-            {
-                Employees = value;
-            }
+            await refreshIfEmployeesEmpty();
+            return Employees.Values.ToList();
         }
 
-        public async static void refreshEmployees()
+        public async static Task<Employee> GetEmployeeByID(int id)
         {
-            Employees = new List<Employee>();
+            await refreshIfEmployeesEmpty();
+            return Employees.Where(x => x.Key == id).FirstOrDefault().Value;
+        }
+
+        public async static Task refreshEmployees()
+        {
+            Employees = new Dictionary<int, Employee>();
             IEnumerable<Employee> test = await context.Employees.ExecuteAsync();
             foreach (Employee emp in test)
             {
+                emp.Photo = null;
                 Employees[emp.EmployeeID] = emp;
+            }
+        }
+
+        private async static Task refreshIfEmployeesEmpty ()
+        {
+            if (Employees == null)
+            {
+                await refreshEmployees();
             }
         }
     }
