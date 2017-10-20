@@ -15,17 +15,9 @@ namespace dataservice.Controllers
         NorthwindEntities context = new NorthwindEntities(new Uri("http://services.odata.org/V3/Northwind/Northwind.svc"));
         // GET api/values
         [HttpGet]
-        public async Task<IEnumerable<Employee>> Get()
+        public IEnumerable<Employee> Get()
         {
-            IEnumerable<Employee> test = await context.Employees.ExecuteAsync();
-            List<Employee> list = new List<Employee>();         
-
-            foreach (Employee emp in test)
-            {
-                emp.Photo = null;
-                list.Add(emp);
-            }
-            return list;
+            return DataAccess.Employees;
         }
 
         // GET api/values/5
