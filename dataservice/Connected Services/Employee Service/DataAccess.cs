@@ -26,10 +26,9 @@ namespace dataservice.Connected_Services.Employee_Service
         public async static Task refreshEmployees()
         {
             Employees = new Dictionary<int, Employee>();
-            IEnumerable<Employee> test = await context.Employees.ExecuteAsync();
+            IEnumerable<Employee> test = await context.Employees.AddQueryOption("$select", "EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, ReportsTo").ExecuteAsync();
             foreach (Employee emp in test)
             {
-                emp.Photo = null;
                 Employees[emp.EmployeeID] = emp;
             }
         }
