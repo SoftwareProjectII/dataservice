@@ -27,6 +27,8 @@ namespace dataservice
         {
             services.AddDbContext<TrainingContext>(opt => opt.UseInMemoryDatabase("Trainings"));
             services.AddMvc();
+            var connection = @"Data Source = dt-srv-web4.ehb.local; Initial Catalog = 17SP2G4; Persist Security Info = True; User ID = 17SP2G4; Password = vj13dnpy25;";
+            services.AddDbContext<_17SP2G4Context>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
