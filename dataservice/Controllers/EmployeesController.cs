@@ -11,7 +11,7 @@ namespace dataservice.Controllers
     {
         // GET: api/Employees
         [HttpGet]
-        public async Task<List<Employee>> Get()
+        public async Task<Dictionary<int, Employee>> Get()
         {
             return await DataAccess.GetEmployees();
         }
@@ -24,7 +24,7 @@ namespace dataservice.Controllers
         }
 
         [HttpGet("m{id}", Name = "GetByManager")]
-        public async Task<List<Employee>> GetByReportsTo(int id)
+        public async Task<Dictionary<int, Employee>> GetByReportsTo(int id)
         {
             return await DataAccess.GetEmployeesByReportsTo(id);
         }

@@ -10,16 +10,16 @@ namespace NorthwindModel
         public static NorthwindEntities context = new NorthwindEntities(new Uri("http://services.odata.org/V3/Northwind/Northwind.svc"));
         private static Dictionary<int, Employee> Employees = null;
 
-        public async static Task<List<Employee>> GetEmployees()
+        public async static Task<Dictionary<int, Employee>> GetEmployees()
         {
-            await refreshIfEmployeesEmpty();
-            return Employees.Values.ToList();
+            await refreshIfEmployeesEmpty();            
+            return Employees;
         }
 
-        public async static Task<List<Employee>> GetEmployeesByReportsTo(int id)
+        public async static Task<Dictionary<int, Employee>> GetEmployeesByReportsTo(int id)
         {
             await refreshIfEmployeesEmpty();
-            return Employees.Values.Where(x => x.ReportsTo == id).ToList();
+            return (Dictionary<int, Employee>)Employees.Where(x => x.Value.ReportsTo == id);
         }
 
         public async static Task<Employee> GetEmployeeByID(int id)
