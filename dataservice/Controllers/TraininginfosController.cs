@@ -10,57 +10,57 @@ using dataservice.Models;
 namespace dataservice.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Tests")]
-    public class TestsController : Controller
+    [Route("api/Traininginfos")]
+    public class TraininginfosController : Controller
     {
         private readonly _17SP2G4Context _context;
 
-        public TestsController(_17SP2G4Context context)
+        public TraininginfosController(_17SP2G4Context context)
         {
             _context = context;
         }
 
-        // GET: api/Tests
+        // GET: api/Traininginfos
         [HttpGet]
-        public IEnumerable<Test> GetTest()
+        public IEnumerable<Traininginfo> GetTraininginfo()
         {
-            return _context.Test;
+            return _context.Traininginfo;
         }
 
-        // GET: api/Tests/5
+        // GET: api/Traininginfos/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTest([FromRoute] int id)
+        public async Task<IActionResult> GetTraininginfo([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var test = await _context.Test.SingleOrDefaultAsync(m => m.Id == id);
+            var traininginfo = await _context.Traininginfo.SingleOrDefaultAsync(m => m.TrainingId == id);
 
-            if (test == null)
+            if (traininginfo == null)
             {
                 return NotFound();
             }
 
-            return Ok(test);
-        }      
+            return Ok(traininginfo);
+        }
 
-        // PUT: api/Tests/5
+        // PUT: api/Traininginfos/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTest([FromRoute] int id, [FromBody] Test test)
+        public async Task<IActionResult> PutTraininginfo([FromRoute] int id, [FromBody] Traininginfo traininginfo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != test.Id)
+            if (id != traininginfo.TrainingId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(test).State = EntityState.Modified;
+            _context.Entry(traininginfo).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace dataservice.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TestExists(id))
+                if (!TraininginfoExists(id))
                 {
                     return NotFound();
                 }
@@ -81,45 +81,45 @@ namespace dataservice.Controllers
             return NoContent();
         }
 
-        // POST: api/Tests
+        // POST: api/Traininginfos
         [HttpPost]
-        public async Task<IActionResult> PostTest([FromForm] Test test)
+        public async Task<IActionResult> PostTraininginfo([FromBody] Traininginfo traininginfo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Test.Add(test);
+            _context.Traininginfo.Add(traininginfo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTest", new { id = test.Id }, test);
+            return CreatedAtAction("GetTraininginfo", new { id = traininginfo.TrainingId }, traininginfo);
         }
 
-        // DELETE: api/Tests/5
+        // DELETE: api/Traininginfos/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTest([FromRoute] int id)
+        public async Task<IActionResult> DeleteTraininginfo([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var test = await _context.Test.SingleOrDefaultAsync(m => m.Id == id);
-            if (test == null)
+            var traininginfo = await _context.Traininginfo.SingleOrDefaultAsync(m => m.TrainingId == id);
+            if (traininginfo == null)
             {
                 return NotFound();
             }
 
-            _context.Test.Remove(test);
+            _context.Traininginfo.Remove(traininginfo);
             await _context.SaveChangesAsync();
 
-            return Ok(test);
+            return Ok(traininginfo);
         }
 
-        private bool TestExists(int id)
+        private bool TraininginfoExists(int id)
         {
-            return _context.Test.Any(e => e.Id == id);
+            return _context.Traininginfo.Any(e => e.TrainingId == id);
         }
     }
 }
