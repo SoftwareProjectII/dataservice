@@ -1,20 +1,25 @@
-﻿using NorthwindModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dataservice.Connected_Services.Employee_Service
+namespace NorthwindModel
 {
     public static class DataAccess
     {
         public static NorthwindEntities context = new NorthwindEntities(new Uri("http://services.odata.org/V3/Northwind/Northwind.svc"));
         private static Dictionary<int, Employee> Employees = null;
 
-        public async static Task<List<Employee>> GetEmployees()
+        public async static Task<Dictionary<int, Employee>> GetEmployees()
+        {
+            await refreshIfEmployeesEmpty();            
+            return Employees;
+        }
+
+        public async static Task<Dictionary<int, Employee>> GetEmployeesByReportsTo(int id)
         {
             await refreshIfEmployeesEmpty();
-            return Employees.Values.ToList();
+            return (Dictionary<int, Employee>)Employees.Where(x => x.Value.ReportsTo == id);
         }
 
         public async static Task<Employee> GetEmployeeByID(int id)
@@ -26,10 +31,9 @@ namespace dataservice.Connected_Services.Employee_Service
         public async static Task refreshEmployees()
         {
             Employees = new Dictionary<int, Employee>();
-            IEnumerable<Employee> test = await context.Employees.ExecuteAsync();
+            IEnumerable<Employee> test = await context.Employees.AddQueryOption("$select", "EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, ReportsTo").ExecuteAsync();
             foreach (Employee emp in test)
-            {
-                emp.Photo = null;
+            {                
                 Employees[emp.EmployeeID] = emp;
             }
         }

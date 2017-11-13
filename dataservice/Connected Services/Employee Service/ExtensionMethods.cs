@@ -4,7 +4,7 @@ using System.Data.Services.Client;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dataservice.Connected_Services.Employee_Service
+namespace NorthwindModel
 {
     public static class ExtensionMethods
     {
