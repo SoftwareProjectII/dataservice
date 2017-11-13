@@ -8,8 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using dataservice.Models;
+//using dataservice.Models;
 using Microsoft.EntityFrameworkCore;
+using dataservice.Models;
 
 namespace dataservice
 {
