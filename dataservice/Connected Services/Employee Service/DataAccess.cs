@@ -19,7 +19,7 @@ namespace NorthwindModel
         public async static Task<Dictionary<int, Employee>> GetEmployeesByReportsTo(int id)
         {
             await refreshIfEmployeesEmpty();
-            return (Dictionary<int, Employee>)Employees.Where(x => x.Value.ReportsTo == id);
+            return Employees.Where(x => x.Value.ReportsTo == id).ToDictionary(p => p.Key, p => p.Value);
         }
 
         public async static Task<Employee> GetEmployeeByID(int id)
