@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -9,57 +10,57 @@ using dataservice.Models;
 namespace dataservice.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Followingtrainings")]
-    public class FollowingtrainingsController : Controller
+    [Route("api/Trainingsurveys")]
+    public class TrainingsurveysController : Controller
     {
         private readonly _17SP2G4Context _context;
 
-        public FollowingtrainingsController(_17SP2G4Context context)
+        public TrainingsurveysController(_17SP2G4Context context)
         {
             _context = context;
         }
 
-        // GET: api/Followingtrainings
+        // GET: api/Trainingsurveys
         [HttpGet]
-        public IEnumerable<Followingtraining> GetFollowingtraining()
+        public IEnumerable<Trainingsurvey> GetTrainingsurvey()
         {
-            return _context.Followingtraining;
+            return _context.Trainingsurvey;
         }
 
-        // GET: api/Followingtrainings/5
+        // GET: api/Trainingsurveys/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFollowingtraining([FromRoute] int id)
+        public async Task<IActionResult> GetTrainingsurvey([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var followingtraining = await _context.Followingtraining.SingleOrDefaultAsync(m => m.UserId == id);
+            var trainingsurvey = await _context.Trainingsurvey.SingleOrDefaultAsync(m => m.TrainingId == id);
 
-            if (followingtraining == null)
+            if (trainingsurvey == null)
             {
                 return NotFound();
             }
 
-            return Ok(followingtraining);
+            return Ok(trainingsurvey);
         }
 
-        // PUT: api/Followingtrainings/5
+        // PUT: api/Trainingsurveys/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFollowingtraining([FromRoute] int id, [FromBody] Followingtraining followingtraining)
+        public async Task<IActionResult> PutTrainingsurvey([FromRoute] int id, [FromBody] Trainingsurvey trainingsurvey)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != followingtraining.UserId)
+            if (id != trainingsurvey.TrainingId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(followingtraining).State = EntityState.Modified;
+            _context.Entry(trainingsurvey).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +68,7 @@ namespace dataservice.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FollowingtrainingExists(id))
+                if (!TrainingsurveyExists(id))
                 {
                     return NotFound();
                 }
@@ -80,23 +81,23 @@ namespace dataservice.Controllers
             return NoContent();
         }
 
-        // POST: api/Followingtrainings
+        // POST: api/Trainingsurveys
         [HttpPost]
-        public async Task<IActionResult> PostFollowingtraining([FromBody] Followingtraining followingtraining)
+        public async Task<IActionResult> PostTrainingsurvey([FromBody] Trainingsurvey trainingsurvey)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Followingtraining.Add(followingtraining);
+            _context.Trainingsurvey.Add(trainingsurvey);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (FollowingtrainingExists(followingtraining.UserId))
+                if (TrainingsurveyExists(trainingsurvey.TrainingId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -106,33 +107,33 @@ namespace dataservice.Controllers
                 }
             }
 
-            return CreatedAtAction("GetFollowingtraining", new { id = followingtraining.UserId }, followingtraining);
+            return CreatedAtAction("GetTrainingsurvey", new { id = trainingsurvey.TrainingId }, trainingsurvey);
         }
 
-        // DELETE: api/Followingtrainings/5
+        // DELETE: api/Trainingsurveys/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFollowingtraining([FromRoute] int id)
+        public async Task<IActionResult> DeleteTrainingsurvey([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var followingtraining = await _context.Followingtraining.SingleOrDefaultAsync(m => m.UserId == id);
-            if (followingtraining == null)
+            var trainingsurvey = await _context.Trainingsurvey.SingleOrDefaultAsync(m => m.TrainingId == id);
+            if (trainingsurvey == null)
             {
                 return NotFound();
             }
 
-            _context.Followingtraining.Remove(followingtraining);
+            _context.Trainingsurvey.Remove(trainingsurvey);
             await _context.SaveChangesAsync();
 
-            return Ok(followingtraining);
+            return Ok(trainingsurvey);
         }
 
-        private bool FollowingtrainingExists(int id)
+        private bool TrainingsurveyExists(int id)
         {
-            return _context.Followingtraining.Any(e => e.UserId == id);
+            return _context.Trainingsurvey.Any(e => e.TrainingId == id);
         }
     }
 }

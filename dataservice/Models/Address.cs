@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace dataservice.Models
@@ -18,6 +18,8 @@ namespace dataservice.Models
         public string Premise { get; set; }
         public string Country { get; set; }
 
+
+        [JsonIgnore]
         public ICollection<Trainingsession> Trainingsession { get; set; }
     }
 }

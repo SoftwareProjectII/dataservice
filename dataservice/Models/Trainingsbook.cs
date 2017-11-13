@@ -2,13 +2,13 @@
 
 namespace dataservice.Models
 {
-    public partial class Certificate
+    public partial class Trainingsbook
     {
-        public int CertificateId { get; set; }
         public int TrainingId { get; set; }
-        public string Titel { get; set; }
-        public byte[] Picture { get; set; }
+        public int Isbn { get; set; }
 
+        [JsonIgnore]
+        public Book IsbnNavigation { get; set; }
         [JsonIgnore]
         public Traininginfo Training { get; set; }
     }

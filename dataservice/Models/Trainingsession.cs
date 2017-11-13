@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace dataservice.Models
@@ -19,9 +20,13 @@ namespace dataservice.Models
         public TimeSpan EndHour { get; set; }
         public bool Cancelled { get; set; }
 
+        [JsonIgnore]
         public Address Address { get; set; }
+        [JsonIgnore]
         public Teacher Teacher { get; set; }
+        [JsonIgnore]
         public Traininginfo Training { get; set; }
+        [JsonIgnore]
         public ICollection<Followingtraining> Followingtraining { get; set; }
     }
 }

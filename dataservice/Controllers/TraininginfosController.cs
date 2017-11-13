@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
@@ -10,12 +8,12 @@ using dataservice.Models;
 namespace dataservice.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Traininginfoes")]
-    public class TraininginfoesController : Controller
+    [Route("api/Traininginfos")]
+    public class TraininginfosController : Controller
     {
         private readonly _17SP2G4Context _context;
 
-        public TraininginfoesController(_17SP2G4Context context)
+        public TraininginfosController(_17SP2G4Context context)
         {
             _context = context;
         }

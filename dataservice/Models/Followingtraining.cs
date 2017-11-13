@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 
 namespace dataservice.Models
 {
@@ -8,7 +7,9 @@ namespace dataservice.Models
         public int UserId { get; set; }
         public int TrainingSessionId { get; set; }
 
+        [JsonIgnore]
         public Trainingsession TrainingSession { get; set; }
+        [JsonIgnore]
         public User User { get; set; }
     }
 }

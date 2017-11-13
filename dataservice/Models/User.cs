@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace dataservice.Models
@@ -15,7 +15,9 @@ namespace dataservice.Models
         public string Email { get; set; }
         public string Password { get; set; }
 
+        [JsonIgnore]
         public ICollection<Followingtraining> Followingtraining { get; set; }
+        [JsonIgnore]
         public ICollection<Surveyanswer> Surveyanswer { get; set; }
     }
 }
