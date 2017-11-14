@@ -28,14 +28,32 @@ namespace dataservice.Controllers
 
         // GET: api/Followingtrainings/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFollowingtraining([FromRoute] int id)
+        public async Task<IActionResult> GetFollowingtrainingByUserId([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var followingtraining = await _context.Followingtraining.SingleOrDefaultAsync(m => m.UserId == id);
+            var followingtraining = await _context.Followingtraining.Where(m => m.UserId == id).ToListAsync();
+
+            if (followingtraining == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(followingtraining);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetFollowingtrainingByTrainingSessionId([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var followingtraining = await _context.Followingtraining.Where(m => m.TrainingSessionId == id).ToListAsync();
 
             if (followingtraining == null)
             {

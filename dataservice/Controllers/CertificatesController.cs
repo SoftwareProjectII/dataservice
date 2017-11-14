@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using dataservice.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using dataservice.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace dataservice.Controllers
 {
@@ -42,6 +42,43 @@ namespace dataservice.Controllers
             }
 
             return Ok(certificate);
+        }
+
+        //fix this
+        [HttpGet("{id}/users", Name = "GetUserByCertificate")]
+        public async Task<IActionResult> GetUsersByCertificateId([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var usercertificate = await _context.User.Where(m => m.UserId == id).ToListAsync();
+
+            if (usercertificate == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usercertificate);
+        }
+
+        [HttpGet("{id}/trainings", Name = "GetTrainingsByCertificate")]
+        public async Task<IActionResult> GetTrainingByCertificateId([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var training = await _context.Traininginfo.FirstOrDefaultAsync(m => m.TrainingId == id);
+
+            if (training == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(training);
         }
 
         // PUT: api/Certificates/5

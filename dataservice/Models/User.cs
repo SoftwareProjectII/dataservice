@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace dataservice.Models
@@ -9,6 +10,7 @@ namespace dataservice.Models
         {
             Followingtraining = new HashSet<Followingtraining>();
             Surveyanswer = new HashSet<Surveyanswer>();
+            Usercertificate = new HashSet<Usercertificate>();
         }
 
         public int UserId { get; set; }
@@ -19,5 +21,7 @@ namespace dataservice.Models
         public ICollection<Followingtraining> Followingtraining { get; set; }
         [JsonIgnore]
         public ICollection<Surveyanswer> Surveyanswer { get; set; }
+        [JsonIgnore]
+        public ICollection<Usercertificate> Usercertificate { get; set; }
     }
 }

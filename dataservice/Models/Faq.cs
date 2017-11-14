@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace dataservice.Models
@@ -13,7 +14,6 @@ namespace dataservice.Models
         public int FaqId { get; set; }
         public string QuestionFaq { get; set; }
         public string AnswerFaq { get; set; }
-
 
         [JsonIgnore]
         public ICollection<Trainingfaq> Trainingfaq { get; set; }

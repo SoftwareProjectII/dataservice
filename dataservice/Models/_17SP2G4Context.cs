@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace dataservice.Models
 {
     public partial class _17SP2G4Context : DbContext
     {
+
         public _17SP2G4Context(DbContextOptions options)
             :base(options)
         {
@@ -26,7 +29,9 @@ namespace dataservice.Models
         public virtual DbSet<Trainingsession> Trainingsession { get; set; }
         public virtual DbSet<Trainingsurvey> Trainingsurvey { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Usercertificate> Usercertificate { get; set; }
         
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Address>(entity =>
@@ -407,6 +412,29 @@ namespace dataservice.Models
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password");
+            });
+
+            modelBuilder.Entity<Usercertificate>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.CertificateId });
+
+                entity.ToTable("USERCERTIFICATE");
+
+                entity.Property(e => e.UserId).HasColumnName("userID");
+
+                entity.Property(e => e.CertificateId).HasColumnName("certificateID");
+
+                entity.HasOne(d => d.Certificate)
+                    .WithMany(p => p.Usercertificate)
+                    .HasForeignKey(d => d.CertificateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERCERTIFICATE_CERTIFICATE");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Usercertificate)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERCERTIFICATE_USER");
             });
         }
     }

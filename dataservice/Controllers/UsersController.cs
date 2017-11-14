@@ -44,6 +44,24 @@ namespace dataservice.Controllers
             return Ok(user);
         }
 
+        [HttpGet("{id}/certificates")]
+        public async Task<IActionResult> GeyUserCertificates([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var usercertificate = await _context.Usercertificate.Where(m => m.UserId == id).ToListAsync();
+
+            if (usercertificate == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usercertificate);
+        }
+
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
