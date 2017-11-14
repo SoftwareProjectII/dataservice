@@ -15,12 +15,16 @@ Take note of the base URL, this is the URL you must use to access the api.
 
 ## Usage
 
-### Base URL
-The base URL is 10.3.50.22/api . Use this URL as a base for all requests.
+### General usage
+GET: api/<entity> - get all <entities>  
+GET: api/<entity>/5 - get <entity> with ID 5 
+
+POST: api/<entity> - post (create) an <entity>, with the <entity> properties in the request body  
+PUT: api/<entity>/5 - put (update) an <entity>, with the <entity> properties in the request body, and the ID of the <entity> in the URL  
 
 ### Addresses
-GET: api/Addresses - get all addresses  
-GET: api/Addresses/5 - get address with ID 5  
+GET: api/Addresses  
+GET: api/Addresses/5  
 GET: api/Addresses/5/trainingsessions  
 
 PUT: api/Addresses/5  
@@ -28,7 +32,7 @@ POST: api/Addresses
 DELETE: api/Addresses/5  
 
 ### Books
-GET: api/Books -  
+GET: api/Books  
 GET: api/Books/5  
 GET: api/Books/5/trainings  
 
