@@ -133,6 +133,7 @@ DELETE: api/Trainingsbooks/5
 ### Trainingsessions
 GET: api/Trainingsessions  
 GET: api/Trainingsessions/5  
+GET: api/trainingsessions/5/address  
 GET: api/trainingsessions/5/users  
 GET: api/trainingsessions/5/traininginfo  
 GET: api/trainingsessions/5/teacher  
