@@ -20,7 +20,8 @@ GET: api/<entity> - get all <entities>
 GET: api/<entity>/5 - get <entity> with ID 5 
 
 POST: api/<entity> - post (create) an <entity>, with the <entity> properties in the request body  
-PUT: api/<entity>/5 - put (update) an <entity>, with the <entity> properties in the request body, and the ID of the <entity> in the URL  
+PUT: api/<entity>/5 - put (update) an <entity> with ID 5, with the <entity> properties in the request body  
+DELETE: api/<entity>/5 - delete an <entity> with ID 5  
 
 ### Addresses
 GET: api/Addresses  
