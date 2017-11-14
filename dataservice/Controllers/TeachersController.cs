@@ -44,6 +44,25 @@ namespace dataservice.Controllers
             return Ok(teacher);
         }
 
+        // GET: api/Teachers/5/sessions
+        [HttpGet("{id}/sessions")]
+        public async Task<IActionResult> GetSessions([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var sessions = await _context.Trainingsession.Where(m => m.TeacherId == id).ToListAsync();
+
+            if (sessions == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(sessions);
+        }
+
         // PUT: api/Teachers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTeacher([FromRoute] int id, [FromBody] Teacher teacher)

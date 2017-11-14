@@ -43,23 +43,62 @@ namespace dataservice.Controllers
 
             return Ok(user);
         }
-
+           
+        // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
-        public async Task<IActionResult> GeyUserCertificates([FromRoute] int id)
+        public async Task<IActionResult> GetCertificates([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var usercertificate = await _context.Usercertificate.Where(m => m.UserId == id).ToListAsync();
+            var certificates = await _context.Usercertificate.Where(m => m.UserId == id).Select(m => m.Certificate).ToListAsync();
 
-            if (usercertificate == null)
+            if (certificates == null)
             {
                 return NotFound();
             }
 
-            return Ok(usercertificate);
+            return Ok(certificates);
+        }
+
+        // GET: api/users/5/trainings
+        [HttpGet("{id}/trainings")]
+        public async Task<IActionResult> GetTrainings([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var trainings = await _context.Followingtraining.Where(m => m.UserId == id).Select(m => m.TrainingSession).ToListAsync();
+
+            if (trainings == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(trainings);
+        }
+
+        // GET: api/users/5/surveyanswers
+        [HttpGet("{id}/surveyanswers")]
+        public async Task<IActionResult> GetSurveyanswers([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var answers = await _context.Surveyanswer.Where(m => m.UserId == id).ToListAsync();
+
+            if (answers == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(answers);
         }
 
         // PUT: api/Users/5

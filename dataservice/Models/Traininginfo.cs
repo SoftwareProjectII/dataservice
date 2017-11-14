@@ -9,7 +9,6 @@ namespace dataservice.Models
         public Traininginfo()
         {
             Certificate = new HashSet<Certificate>();
-            Infotosession = new HashSet<Infotosession>();
             Trainingfaq = new HashSet<Trainingfaq>();
             Trainingsbook = new HashSet<Trainingsbook>();
             Trainingsession = new HashSet<Trainingsession>();
@@ -26,8 +25,6 @@ namespace dataservice.Models
 
         [JsonIgnore]
         public ICollection<Certificate> Certificate { get; set; }
-        [JsonIgnore]
-        public ICollection<Infotosession> Infotosession { get; set; }
         [JsonIgnore]
         public ICollection<Trainingfaq> Trainingfaq { get; set; }
         [JsonIgnore]

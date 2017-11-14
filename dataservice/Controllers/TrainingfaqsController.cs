@@ -28,25 +28,26 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Trainingfaqs/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetTrainingfaq([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetTrainingfaq([FromRoute] int id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var trainingfaq = await _context.Trainingfaq.SingleOrDefaultAsync(m => m.TrainingId == id);
+        //    var trainingfaq = await _context.Trainingfaq.SingleOrDefaultAsync(m => m.TrainingId == id);
 
-            if (trainingfaq == null)
-            {
-                return NotFound();
-            }
+        //    if (trainingfaq == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(trainingfaq);
-        }
+        //    return Ok(trainingfaq);
+        //}
 
         // PUT: api/Trainingfaqs/5
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrainingfaq([FromRoute] int id, [FromBody] Trainingfaq trainingfaq)
         {

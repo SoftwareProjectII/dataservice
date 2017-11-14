@@ -44,6 +44,44 @@ namespace dataservice.Controllers
             return Ok(surveyanswer);
         }
 
+        // GET: api/Surveyanswers/5/question
+        [HttpGet("{id}/question")]
+        public async Task<IActionResult> GetQuestion([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var question = await _context.Surveyanswer.Where(m => m.AnswerId == id).Select(m => m.Question).FirstOrDefaultAsync();
+
+            if (question == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(question);
+        }
+
+        // GET: api/Surveyanswers/5/user
+        [HttpGet("{id}/user")]
+        public async Task<IActionResult> GetUser([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.Surveyanswer.Where(m => m.AnswerId == id).Select(m => m.User).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
         // PUT: api/Surveyanswers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSurveyanswer([FromRoute] int id, [FromBody] Surveyanswer surveyanswer)

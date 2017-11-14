@@ -18,14 +18,14 @@ namespace dataservice.Controllers
             _context = context;
         }
 
-        // GET: api/Traininginfoes
+        // GET: api/Traininginfos
         [HttpGet]
         public IEnumerable<Traininginfo> GetTraininginfo()
         {
             return _context.Traininginfo;
         }
 
-        // GET: api/Traininginfoes/5
+        // GET: api/Traininginfos/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTraininginfo([FromRoute] int id)
         {
@@ -44,7 +44,102 @@ namespace dataservice.Controllers
             return Ok(traininginfo);
         }
 
-        // PUT: api/Traininginfoes/5
+        // GET: api/Traininginfos/5/faqs
+        [HttpGet("{id}/faqs")]
+        public async Task<IActionResult> GetFaqs([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var faqs = await _context.Trainingfaq.Where(m => m.TrainingId == id).Select(m => m.Faq).ToListAsync();
+
+            if (faqs == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(faqs);
+        }
+
+        // GET: api/Traininginfos/5/certificates
+        [HttpGet("{id}/certificates")]
+        public async Task<IActionResult> GetCertificates([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var certificates = await _context.Certificate.Where(m => m.TrainingId == id).ToListAsync();
+
+            if (certificates == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(certificates);
+        }
+
+        // GET: api/Traininginfos/5/sessions
+        [HttpGet("{id}/sessions")]
+        public async Task<IActionResult> GetSessions([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var sessions = await _context.Trainingsession.Where(m => m.TrainingId == id).ToListAsync();
+
+            if (sessions == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(sessions);
+        }
+
+        // GET: api/Traininginfos/5/books
+        [HttpGet("{id}/books")]
+        public async Task<IActionResult> GetBooks([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var books = await _context.Trainingsbook.Where(m => m.TrainingId == id).Select(m => m.IsbnNavigation).ToListAsync();
+
+            if (books == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(books);
+        }
+
+        // GET: api/Traininginfos/5/surveys
+        [HttpGet("{id}/surveys")]
+        public async Task<IActionResult> GetSurveys([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var surveys = await _context.Trainingsurvey.Where(m => m.TrainingId == id).Select(m => m.Survey).ToListAsync();
+
+            if (surveys == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(surveys);
+        }
+
+        // PUT: api/Traininginfos/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTraininginfo([FromRoute] int id, [FromBody] Traininginfo traininginfo)
         {
@@ -79,7 +174,7 @@ namespace dataservice.Controllers
             return NoContent();
         }
 
-        // POST: api/Traininginfoes
+        // POST: api/Traininginfos
         [HttpPost]
         public async Task<IActionResult> PostTraininginfo([FromBody] Traininginfo traininginfo)
         {
@@ -94,7 +189,7 @@ namespace dataservice.Controllers
             return CreatedAtAction("GetTraininginfo", new { id = traininginfo.TrainingId }, traininginfo);
         }
 
-        // DELETE: api/Traininginfoes/5
+        // DELETE: api/Traininginfos/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTraininginfo([FromRoute] int id)
         {

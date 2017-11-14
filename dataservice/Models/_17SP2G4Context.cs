@@ -17,8 +17,7 @@ namespace dataservice.Models
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Certificate> Certificate { get; set; }
         public virtual DbSet<Faq> Faq { get; set; }
-        public virtual DbSet<Followingtraining> Followingtraining { get; set; }
-        public virtual DbSet<Infotosession> Infotosession { get; set; }
+        public virtual DbSet<Followingtraining> Followingtraining { get; set; }        
         public virtual DbSet<Survey> Survey { get; set; }
         public virtual DbSet<Surveyanswer> Surveyanswer { get; set; }
         public virtual DbSet<Surveyquestion> Surveyquestion { get; set; }
@@ -156,23 +155,6 @@ namespace dataservice.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FOLLOWINGTRAINING_USER");
-            });
-
-            modelBuilder.Entity<Infotosession>(entity =>
-            {
-                entity.HasKey(e => new { e.TrainingId, e.TrainingSessionId });
-
-                entity.ToTable("INFOTOSESSION");
-
-                entity.Property(e => e.TrainingId).HasColumnName("trainingID");
-
-                entity.Property(e => e.TrainingSessionId).HasColumnName("trainingSessionID");
-
-                entity.HasOne(d => d.Training)
-                    .WithMany(p => p.Infotosession)
-                    .HasForeignKey(d => d.TrainingId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_INFOTOSESSION_TRAININGINFO");
             });
 
             modelBuilder.Entity<Survey>(entity =>

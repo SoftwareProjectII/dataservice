@@ -44,6 +44,25 @@ namespace dataservice.Controllers
             return Ok(address);
         }
 
+        // GET: api/Addresses/5/trainingsessions
+        [HttpGet("{id}/trainingsessions")]
+        public async Task<IActionResult> GetTrainingsession([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var trainingsession = await _context.Trainingsession.Where(m => m.AddressId == id).ToListAsync();
+
+            if (trainingsession == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(trainingsession);
+        }
+
         // PUT: api/Addresses/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAddress([FromRoute] int id, [FromBody] Address address)

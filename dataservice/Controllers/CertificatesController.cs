@@ -1,6 +1,7 @@
 ﻿using dataservice.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,35 +45,36 @@ namespace dataservice.Controllers
             return Ok(certificate);
         }
 
-        //fix this
-        [HttpGet("{id}/users", Name = "GetUserByCertificate")]
-        public async Task<IActionResult> GetUsersByCertificateId([FromRoute] int id)
+        // GET: api/certificates/5/users
+        [HttpGet("{id}/users")]
+        public async Task<IActionResult> GetUsers([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var usercertificate = await _context.User.Where(m => m.UserId == id).ToListAsync();
+            var users = await _context.Usercertificate.Where(m => m.CertificateId == id).Select(m => m.User).ToListAsync();
 
-            if (usercertificate == null)
+            if (users == null)
             {
                 return NotFound();
             }
 
-            return Ok(usercertificate);
+            return Ok(users);
         }
 
-        [HttpGet("{id}/trainings", Name = "GetTrainingsByCertificate")]
-        public async Task<IActionResult> GetTrainingByCertificateId([FromRoute] int id)
+        // GET: api/Certificates/5/training
+        [HttpGet("{id}/training")]
+        public async Task<IActionResult> GetTraining([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var training = await _context.Traininginfo.FirstOrDefaultAsync(m => m.TrainingId == id);
-
+            var training = await _context.Certificate.Where(m => m.CertificateId == id).Select(m => m.Training).FirstOrDefaultAsync();
+            
             if (training == null)
             {
                 return NotFound();

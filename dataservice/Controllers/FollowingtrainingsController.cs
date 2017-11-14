@@ -26,43 +26,6 @@ namespace dataservice.Controllers
             return _context.Followingtraining;
         }
 
-        // GET: api/Followingtrainings/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetFollowingtrainingByUserId([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var followingtraining = await _context.Followingtraining.Where(m => m.UserId == id).ToListAsync();
-
-            if (followingtraining == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(followingtraining);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetFollowingtrainingByTrainingSessionId([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var followingtraining = await _context.Followingtraining.Where(m => m.TrainingSessionId == id).ToListAsync();
-
-            if (followingtraining == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(followingtraining);
-        }
-
         // PUT: api/Followingtrainings/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFollowingtraining([FromRoute] int id, [FromBody] Followingtraining followingtraining)

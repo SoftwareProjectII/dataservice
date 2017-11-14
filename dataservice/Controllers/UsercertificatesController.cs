@@ -27,9 +27,6 @@ namespace dataservice.Controllers
             return _context.Usercertificate;
         }
 
-        // GET: api/Usercertificates/5
-        
-
         // PUT: api/Usercertificates/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsercertificate([FromRoute] int id, [FromBody] Usercertificate usercertificate)

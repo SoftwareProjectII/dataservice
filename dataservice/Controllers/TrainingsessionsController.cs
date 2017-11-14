@@ -44,6 +44,83 @@ namespace dataservice.Controllers
             return Ok(trainingsession);
         }
 
+        // GET: api/trainingsessions/5/users
+        [HttpGet("{id}/users")]
+        public async Task<IActionResult> GetUsers([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var users = await _context.Followingtraining.Where(m => m.TrainingSessionId == id).Select(m => m.User).ToListAsync();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(users);
+        }
+
+        // GET: api/trainingsessions/5/traininginfo
+        [HttpGet("{id}/traininginfo")]
+        public async Task<IActionResult> GetTrainingInfo([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var training = await _context.Trainingsession.Include(m => m.Training).Where(m => m.TrainingSessionId == id).Select(m => m.Training).FirstOrDefaultAsync();
+
+
+            if (training == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(training);
+        }
+
+        // GET: api/trainingsessions/5/teacher
+        [HttpGet("{id}/teacher")]
+        public async Task<IActionResult> GetTeacher([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var teacher = await _context.Teacher.SingleOrDefaultAsync(m => m.TeacherId == id);
+            
+            if (teacher == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(teacher);
+        }
+
+        // GET: api/trainingsessions/5/address
+        [HttpGet("{id}/address")]
+        public async Task<IActionResult> GetAddress([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var address = await _context.Trainingsession.Where(m => m.TrainingSessionId == id).Select(m => m.Address).FirstOrDefaultAsync();
+
+            if (address == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(address);
+        }
+
         // PUT: api/Trainingsessions/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrainingsession([FromRoute] int id, [FromBody] Trainingsession trainingsession)
@@ -103,7 +180,7 @@ namespace dataservice.Controllers
                 return BadRequest(ModelState);
             }
 
-            var trainingsession = await _context.Trainingsession.SingleOrDefaultAsync(m => m.TrainingSessionId == id);
+            var trainingsession = await _context.Trainingsession.FirstOrDefaultAsync(m => m.TrainingSessionId == id);
             if (trainingsession == null)
             {
                 return NotFound();

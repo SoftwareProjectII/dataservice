@@ -44,6 +44,20 @@ namespace dataservice.Controllers
             return Ok(book);
         }
 
+        // GET: api/Books/5/trainings
+        [HttpGet("{id}/trainings")]
+        public async Task<IActionResult> GetTrainings([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var traininginfos = await _context.Trainingsbook.Where(m => m.Isbn == id).Select(m => m.Training).ToListAsync();          
+
+            return Ok(traininginfos);
+        }
+
         // PUT: api/Books/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook([FromRoute] int id, [FromBody] Book book)
