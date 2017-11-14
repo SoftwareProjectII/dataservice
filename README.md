@@ -19,150 +19,150 @@ Take note of the base URL, this is the URL you must use to access the api.
 The base URL is 10.3.50.22/api . Use this URL as a base for all requests.
 
 ### Addresses
-GET: api/Addresses - get all addresses.
-GET: api/Addresses/5 - get address with ID 5.
-GET: api/Addresses/5/trainingsessions 
+GET: api/Addresses - get all addresses  
+GET: api/Addresses/5 - get address with ID 5  
+GET: api/Addresses/5/trainingsessions  
 
-PUT: api/Addresses/5
-POST: api/Addresses
-DELETE: api/Addresses/5
+PUT: api/Addresses/5  
+POST: api/Addresses  
+DELETE: api/Addresses/5  
 
 ### Books
-GET: api/Books -
-GET: api/Books/5
-GET: api/Books/5/trainings
+GET: api/Books -  
+GET: api/Books/5  
+GET: api/Books/5/trainings  
 
-PUT: api/Books/5
-POST: api/Books
-DELETE: api/Books/5
+PUT: api/Books/5  
+POST: api/Books  
+DELETE: api/Books/5  
 
 ### Certificates
-GET: api/Certificates
-GET: api/Certificates/5
-GET: api/certificates/5/users
-GET: api/Certificates/5/training
+GET: api/Certificates  
+GET: api/Certificates/5  
+GET: api/certificates/5/users  
+GET: api/Certificates/5/training  
 
-PUT: api/Certificates/5
-POST: api/Certificates
-DELETE: api/Certificates/5
+PUT: api/Certificates/5  
+POST: api/Certificates  
+DELETE: api/Certificates/5  
 
 ### Employees
-GET: api/Employees
-GET: api/Employees/5  
-GET: api/employees/5/manages
+GET: api/Employees  
+GET: api/Employees/5    
+GET: api/employees/5/manages  
 
 ### Faqs
-GET: api/Faqs
-GET: api/Faqs/5
-GET: api/Faqs/5/trainings
+GET: api/Faqs  
+GET: api/Faqs/5  
+GET: api/Faqs/5/trainings  
 
-PUT: api/Faqs/5
-POST: api/Faqs
-DELETE: api/Faqs/5
+PUT: api/Faqs/5  
+POST: api/Faqs  
+DELETE: api/Faqs/5  
 
 ### Followingtrainings
-GET: api/Followingtrainings
-PUT: api/Followingtrainings/5
-POST: api/Followingtrainings
-DELETE: api/Followingtrainings/5
+GET: api/Followingtrainings  
+PUT: api/Followingtrainings/5  
+POST: api/Followingtrainings  
+DELETE: api/Followingtrainings/5  
 
 ### Surveys
-GET: api/Surveys
-GET: api/Surveys/5
-GET: api/Surveys/5/questions
-GET: api/Surveys/5/trainings
+GET: api/Surveys  
+GET: api/Surveys/5  
+GET: api/Surveys/5/questions  
+GET: api/Surveys/5/trainings  
 
-PUT: api/Surveys/5
-POST: api/Surveys
-DELETE: api/Surveys/5
+PUT: api/Surveys/5  
+POST: api/Surveys  
+DELETE: api/Surveys/5  
 
 ### Surveyanswers
-GET: api/Surveyanswers
-GET: api/Surveyanswers/5
-GET: api/Surveyanswers/5/question
-GET: api/Surveyanswers/5/user
+GET: api/Surveyanswers  
+GET: api/Surveyanswers/5  
+GET: api/Surveyanswers/5/question  
+GET: api/Surveyanswers/5/user  
 
-PUT: api/Surveyanswers/5
-POST: api/Surveyanswers
-DELETE: api/Surveyanswers/5
+PUT: api/Surveyanswers/5  
+POST: api/Surveyanswers  
+DELETE: api/Surveyanswers/5  
 
 ### Surveyquestion
-GET: api/Surveyquestions
-GET: api/Surveyquestions/5
-GET: api/Surveyquestions/5/survey
-GET: api/Surveyquestions/5/answers
+GET: api/Surveyquestions  
+GET: api/Surveyquestions/5  
+GET: api/Surveyquestions/5/survey  
+GET: api/Surveyquestions/5/answers  
 
-PUT: api/Surveyquestions/5
-POST: api/Surveyquestions
-DELETE: api/Surveyquestions/5
+PUT: api/Surveyquestions/5  
+POST: api/Surveyquestions  
+DELETE: api/Surveyquestions/5  
 
 ### Teachers
-GET: api/Teachers
-GET: api/Teachers/5
-api/Teachers/5/sessions
+GET: api/Teachers  
+GET: api/Teachers/5  
+api/Teachers/5/sessions  
 
-PUT: api/Teachers/5
-POST: api/Teachers
-DELETE: api/Teachers/5
+PUT: api/Teachers/5 
+POST: api/Teachers  
+DELETE: api/Teachers/5  
 
 ### Trainingfaqs
-GET: api/Trainingfaqs
-POST: api/Trainingfaqs
-DELETE: api/Trainingfaqs/5
+GET: api/Trainingfaqs  
+POST: api/Trainingfaqs  
+DELETE: api/Trainingfaqs/5  
 
 ### Traininginfos
-GET: api/Traininginfos
-GET: api/Traininginfos/5
-GET: api/Traininginfos/5/faqs
-GET: api/Traininginfos/5/certificates
-GET: api/Traininginfos/5/sessions
-GET: api/Traininginfos/5/books
+GET: api/Traininginfos  
+GET: api/Traininginfos/5  
+GET: api/Traininginfos/5/faqs  
+GET: api/Traininginfos/5/certificates  
+GET: api/Traininginfos/5/sessions  
+GET: api/Traininginfos/5/books  
 
-PUT: api/Traininginfos/5
-POST: api/Traininginfos
-DELETE: api/Traininginfos/5
+PUT: api/Traininginfos/5  
+POST: api/Traininginfos  
+DELETE: api/Traininginfos/5  
 
 ### Trainingsbooks
-GET: api/Trainingsbooks
-GET: api/Trainingsbooks/5
+GET: api/Trainingsbooks  
+GET: api/Trainingsbooks/5  
 
-PUT: api/Trainingsbooks/5
-POST: api/Trainingsbooks
-DELETE: api/Trainingsbooks/5
+PUT: api/Trainingsbooks/5  
+POST: api/Trainingsbooks  
+DELETE: api/Trainingsbooks/5  
 
 ### Trainingsessions
-GET: api/Trainingsessions
-GET: api/Trainingsessions/5
-GET: api/trainingsessions/5/users
-GET: api/trainingsessions/5/traininginfo
-GET: api/trainingsessions/5/teacher
+GET: api/Trainingsessions  
+GET: api/Trainingsessions/5  
+GET: api/trainingsessions/5/users  
+GET: api/trainingsessions/5/traininginfo  
+GET: api/trainingsessions/5/teacher  
 
-PUT: api/Trainingsessions/5
-POST: api/Trainingsessions
-DELETE: api/Trainingsessions/5
+PUT: api/Trainingsessions/5  
+POST: api/Trainingsessions  
+DELETE: api/Trainingsessions/5  
 
 ### Trainingsurveys
-GET: api/Trainingsurveys
-GET: api/Trainingsurveys/5
+GET: api/Trainingsurveys  
+GET: api/Trainingsurveys/5  
 
-PUT: api/Trainingsurveys/5
-POST: api/Trainingsurveys
-DELETE: api/Trainingsurveys/5
+PUT: api/Trainingsurveys/5  
+POST: api/Trainingsurveys  
+DELETE: api/Trainingsurveys/5  
 
 ### Users
-GET: api/Users
-GET: api/Users/5
-GET: api/users/5/certificates
-GET: api/users/5/trainings
-GET: api/users/5/surveyanswers
+GET: api/Users  
+GET: api/Users/5  
+GET: api/users/5/certificates  
+GET: api/users/5/trainings  
+GET: api/users/5/surveyanswers  
 
-PUT: api/Users/5
-POST: api/Users
-DELETE: api/Users/5
+PUT: api/Users/5  
+POST: api/Users  
+DELETE: api/Users/5  
 
 ### Usercertificates
-GET: api/Usercertificates
+GET: api/Usercertificates  
 
-PUT: api/Usercertificates/5
-POST: api/Usercertificates
+PUT: api/Usercertificates/5  
+POST: api/Usercertificates  
 DELETE: api/Usercertificates/5
