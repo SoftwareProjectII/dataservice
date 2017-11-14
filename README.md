@@ -101,7 +101,7 @@ GET: api/Teachers
 GET: api/Teachers/5  
 api/Teachers/5/sessions  
 
-PUT: api/Teachers/5 
+PUT: api/Teachers/5  
 POST: api/Teachers  
 DELETE: api/Teachers/5  
 
