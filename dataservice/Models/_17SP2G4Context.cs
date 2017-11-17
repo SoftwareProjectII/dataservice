@@ -6,29 +6,30 @@ namespace dataservice.Models
 {
     public partial class _17SP2G4Context : DbContext
     {
-        public virtual DbSet<Address> Address { get; set; }
-        public virtual DbSet<Book> Book { get; set; }
-        public virtual DbSet<Certificate> Certificate { get; set; }
-        public virtual DbSet<Faq> Faq { get; set; }
-        public virtual DbSet<Followingtraining> Followingtraining { get; set; }
-        public virtual DbSet<Infotosession> Infotosession { get; set; }
-        public virtual DbSet<Survey> Survey { get; set; }
-        public virtual DbSet<Surveyanswer> Surveyanswer { get; set; }
-        public virtual DbSet<Surveyquestion> Surveyquestion { get; set; }
-        public virtual DbSet<Teacher> Teacher { get; set; }
-        public virtual DbSet<Traininginfo> Traininginfo { get; set; }
-        public virtual DbSet<Trainingsession> Trainingsession { get; set; }
-        public virtual DbSet<User> User { get; set; }
-
-        // Unable to generate entity type for table 'dbo.TRAININGSBOOK'. Please see the warning messages.
-        // Unable to generate entity type for table 'dbo.TRAININGFAQ'. Please see the warning messages.
-        // Unable to generate entity type for table 'dbo.TRAININGSURVEY'. Please see the warning messages.
 
         public _17SP2G4Context(DbContextOptions options)
             : base(options)
         {
 
         }
+
+        public virtual DbSet<Address> Address { get; set; }
+        public virtual DbSet<Book> Book { get; set; }
+        public virtual DbSet<Certificate> Certificate { get; set; }
+        public virtual DbSet<Faq> Faq { get; set; }
+        public virtual DbSet<Followingtraining> Followingtraining { get; set; }
+        public virtual DbSet<Survey> Survey { get; set; }
+        public virtual DbSet<Surveyanswer> Surveyanswer { get; set; }
+        public virtual DbSet<Surveyquestion> Surveyquestion { get; set; }
+        public virtual DbSet<Teacher> Teacher { get; set; }
+        public virtual DbSet<Trainingfaq> Trainingfaq { get; set; }
+        public virtual DbSet<Traininginfo> Traininginfo { get; set; }
+        public virtual DbSet<Trainingsbook> Trainingsbook { get; set; }
+        public virtual DbSet<Trainingsession> Trainingsession { get; set; }
+        public virtual DbSet<Trainingsurvey> Trainingsurvey { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Usercertificate> Usercertificate { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -156,23 +157,6 @@ namespace dataservice.Models
                     .HasConstraintName("FK_FOLLOWINGTRAINING_USER");
             });
 
-            modelBuilder.Entity<Infotosession>(entity =>
-            {
-                entity.HasKey(e => new { e.TrainingId, e.TrainingSessionId });
-
-                entity.ToTable("INFOTOSESSION");
-
-                entity.Property(e => e.TrainingId).HasColumnName("trainingID");
-
-                entity.Property(e => e.TrainingSessionId).HasColumnName("trainingSessionID");
-
-                entity.HasOne(d => d.Training)
-                    .WithMany(p => p.Infotosession)
-                    .HasForeignKey(d => d.TrainingId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_INFOTOSESSION_TRAININGINFO");
-            });
-
             modelBuilder.Entity<Survey>(entity =>
             {
                 entity.ToTable("SURVEY");
@@ -256,6 +240,29 @@ namespace dataservice.Models
                     .HasMaxLength(20);
             });
 
+            modelBuilder.Entity<Trainingfaq>(entity =>
+            {
+                entity.HasKey(e => new { e.TrainingId, e.FaqId });
+
+                entity.ToTable("TRAININGFAQ");
+
+                entity.Property(e => e.TrainingId).HasColumnName("trainingID");
+
+                entity.Property(e => e.FaqId).HasColumnName("faqID");
+
+                entity.HasOne(d => d.Faq)
+                    .WithMany(p => p.Trainingfaq)
+                    .HasForeignKey(d => d.FaqId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRAININGFAQ_FAQ");
+
+                entity.HasOne(d => d.Training)
+                    .WithMany(p => p.Trainingfaq)
+                    .HasForeignKey(d => d.TrainingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRAININGFAQ_TRAININGINFO");
+            });
+
             modelBuilder.Entity<Traininginfo>(entity =>
             {
                 entity.HasKey(e => e.TrainingId);
@@ -284,6 +291,29 @@ namespace dataservice.Models
                 entity.Property(e => e.NumberOfDays).HasColumnName("numberOfDays");
 
                 entity.Property(e => e.Price).HasColumnName("price");
+            });
+
+            modelBuilder.Entity<Trainingsbook>(entity =>
+            {
+                entity.HasKey(e => new { e.TrainingId, e.Isbn });
+
+                entity.ToTable("TRAININGSBOOK");
+
+                entity.Property(e => e.TrainingId).HasColumnName("trainingID");
+
+                entity.Property(e => e.Isbn).HasColumnName("isbn");
+
+                entity.HasOne(d => d.IsbnNavigation)
+                    .WithMany(p => p.Trainingsbook)
+                    .HasForeignKey(d => d.Isbn)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRAININGSBOOK_BOOK");
+
+                entity.HasOne(d => d.Training)
+                    .WithMany(p => p.Trainingsbook)
+                    .HasForeignKey(d => d.TrainingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRAININGSBOOK_TRAININGINFO");
             });
 
             modelBuilder.Entity<Trainingsession>(entity =>
@@ -327,20 +357,85 @@ namespace dataservice.Models
                     .HasConstraintName("FK_TRAININGSESSION_TRAININGINFO");
             });
 
+            modelBuilder.Entity<Trainingsurvey>(entity =>
+            {
+                entity.HasKey(e => new { e.TrainingId, e.SurveyId });
+
+                entity.ToTable("TRAININGSURVEY");
+
+                entity.Property(e => e.TrainingId).HasColumnName("trainingID");
+
+                entity.Property(e => e.SurveyId).HasColumnName("surveyID");
+
+                entity.HasOne(d => d.Survey)
+                    .WithMany(p => p.Trainingsurvey)
+                    .HasForeignKey(d => d.SurveyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRAININGSURVEY_SURVEY");
+
+                entity.HasOne(d => d.Training)
+                    .WithMany(p => p.Trainingsurvey)
+                    .HasForeignKey(d => d.TrainingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRAININGSURVEY_TRAININGINFO");
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("USER");
 
+                entity.HasIndex(e => e.EmpId)
+                    .HasName("idx_empid_notnull")
+                    .IsUnique()
+                    .HasFilter("([empid] IS NOT NULL)");
+
+                entity.HasIndex(e => e.Username)
+                    .HasName("UK_USER_USERNAME")
+                    .IsUnique();
+
                 entity.Property(e => e.UserId).HasColumnName("userID");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasColumnName("email")
                     .HasMaxLength(320);
+
+                entity.Property(e => e.EmpId).HasColumnName("empID");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password");
+
+                entity.Property(e => e.Salt)
+                    .IsRequired()
+                    .HasColumnName("salt");
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasColumnName("username")
+                    .HasColumnType("nchar(40)");
+            });
+
+            modelBuilder.Entity<Usercertificate>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.CertificateId });
+
+                entity.ToTable("USERCERTIFICATE");
+
+                entity.Property(e => e.UserId).HasColumnName("userID");
+
+                entity.Property(e => e.CertificateId).HasColumnName("certificateID");
+
+                entity.HasOne(d => d.Certificate)
+                    .WithMany(p => p.Usercertificate)
+                    .HasForeignKey(d => d.CertificateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERCERTIFICATE_CERTIFICATE");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Usercertificate)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERCERTIFICATE_USER");
             });
         }
     }

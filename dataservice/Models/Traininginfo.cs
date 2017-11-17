@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace dataservice.Models
@@ -8,8 +9,10 @@ namespace dataservice.Models
         public Traininginfo()
         {
             Certificate = new HashSet<Certificate>();
-            Infotosession = new HashSet<Infotosession>();
+            Trainingfaq = new HashSet<Trainingfaq>();
+            Trainingsbook = new HashSet<Trainingsbook>();
             Trainingsession = new HashSet<Trainingsession>();
+            Trainingsurvey = new HashSet<Trainingsurvey>();
         }
 
         public int TrainingId { get; set; }
@@ -20,8 +23,15 @@ namespace dataservice.Models
         public string InfoPayment { get; set; }
         public double Price { get; set; }
 
+        [JsonIgnore]
         public ICollection<Certificate> Certificate { get; set; }
-        public ICollection<Infotosession> Infotosession { get; set; }
+        [JsonIgnore]
+        public ICollection<Trainingfaq> Trainingfaq { get; set; }
+        [JsonIgnore]
+        public ICollection<Trainingsbook> Trainingsbook { get; set; }
+        [JsonIgnore]
         public ICollection<Trainingsession> Trainingsession { get; set; }
+        [JsonIgnore]
+        public ICollection<Trainingsurvey> Trainingsurvey { get; set; }
     }
 }

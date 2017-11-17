@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace dataservice.Models
@@ -14,7 +15,9 @@ namespace dataservice.Models
         public int SurveyId { get; set; }
         public string Content { get; set; }
 
+        [JsonIgnore]
         public Survey Survey { get; set; }
+        [JsonIgnore]
         public ICollection<Surveyanswer> Surveyanswer { get; set; }
     }
 }
