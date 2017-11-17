@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
+using NorthwindModel;
 
 namespace dataservice.Controllers
 {
@@ -43,7 +44,47 @@ namespace dataservice.Controllers
 
             return Ok(user);
         }
-           
+
+
+        [HttpGet("load")]
+        public async Task<IActionResult> LoadUsers([FromRoute] int id)
+        {
+            List<int> users = await _context.User.Select(m => m.UserId).ToListAsync();
+            Dictionary<int, Employee> employees = await DataAccess.GetEmployees();
+
+            if (users.Count == 0)
+            {
+                InitUsers(false);
+            }
+
+            if (users.Count < employees.Keys.Count())
+            {
+                InitUsers(true, employees);
+            }
+
+            return Ok();
+        }
+
+        private async void InitUsers(bool forUpdate, Dictionary<int, Employee> employees = null)
+        {
+            if (forUpdate == false)
+            {
+                foreach (Employee e in employees.Values)
+                {
+                    User user = new User();
+                    user.UserId = e.EmployeeID;
+                    user.Email = "NOT_SET";
+                    user.Password = e.EmployeeID.ToString() + e.FirstName + e.LastName;
+                    _context.User.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+            }
+        }
+
+
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
         public async Task<IActionResult> GetCertificates([FromRoute] int id)
