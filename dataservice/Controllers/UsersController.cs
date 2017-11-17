@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
 using NorthwindModel;
+using System.Security.Cryptography;
+using System;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+
+// Hashing: https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/consumer-apis/password-hashing
 
 namespace dataservice.Controllers
 {
@@ -41,6 +46,7 @@ namespace dataservice.Controllers
             {
                 return NotFound();
             }
+            
 
             return Ok(user);
         }
@@ -49,42 +55,47 @@ namespace dataservice.Controllers
         [HttpGet("load")]
         public async Task<IActionResult> LoadUsers([FromRoute] int id)
         {
-            List<int> users = await _context.User.Select(m => m.UserId).ToListAsync();
+
+            List<int?> emps = await _context.User.Where(m => m.EmpId != null).Select(m => m.EmpId).ToListAsync();
             Dictionary<int, Employee> employees = await DataAccess.GetEmployees();
 
-            if (users.Count == 0)
+            foreach (int empId in emps)
             {
-                InitUsers(false);
+                employees.Remove(empId);
             }
 
-            if (users.Count < employees.Keys.Count())
-            {
-                InitUsers(true, employees);
-            }
+            InitUsers(employees);
 
             return Ok();
         }
 
-        private async void InitUsers(bool forUpdate, Dictionary<int, Employee> employees = null)
+        // Test om te zien of het hashen werkte
+        [HttpGet("{id}/pwhash")]
+        public async Task<IActionResult> GetUserPwHash([FromRoute] int id)
         {
-            if (forUpdate == false)
+            if (!ModelState.IsValid)
             {
-                foreach (Employee e in employees.Values)
-                {
-                    User user = new User();
-                    user.UserId = e.EmployeeID;
-                    user.Email = "NOT_SET";
-                    user.Password = e.EmployeeID.ToString() + e.FirstName + e.LastName;
-                    _context.User.Add(user);
-                    await _context.SaveChangesAsync();
-                }
+                return BadRequest(ModelState);
             }
-            else
+
+            var user = await _context.User.SingleOrDefaultAsync(m => m.UserId == id);
+
+            if (user == null)
             {
+                return NotFound();
             }
+
+            List<string> pws = new List<string>();
+            pws.Add(user.Password);
+
+            Employee emp = await DataAccess.GetEmployeeByID((int)user.EmpId);
+
+            string pw = HashPassword(user.EmpId.ToString() + emp.LastName, user.Salt);
+            pws.Add(pw);
+
+            return Ok(pws);
         }
-
-
+        
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
         public async Task<IActionResult> GetCertificates([FromRoute] int id)
@@ -192,6 +203,28 @@ namespace dataservice.Controllers
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
+        // POST: api/Users/login
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginWrapper login)
+        {            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string username = login.username;
+            string password = login.password;
+
+            User user = await _context.User.Where(m => m.Username == username).FirstOrDefaultAsync();
+            
+            if (user == null || user.Password != password)
+            {
+                return Unauthorized();
+            }
+
+            else return Ok(user);
+        }
+        
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
@@ -217,5 +250,47 @@ namespace dataservice.Controllers
         {
             return _context.User.Any(e => e.UserId == id);
         }
+
+        private async void InitUsers(Dictionary<int, Employee> employees)
+        {
+            foreach (Employee e in employees.Values)
+            {
+                User user = new User();
+                user.Username = e.FirstName[0] + e.LastName;
+                user.EmpId = e.EmployeeID;
+                user.Salt = getSalt();
+                user.Password = HashPassword(e.EmployeeID.ToString() + e.LastName, user.Salt);
+
+                _context.User.Add(user);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        private string HashPassword(string password, byte[] salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password,
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA1,
+            iterationCount: 1000,
+            numBytesRequested: 256 / 8));
+            return hashed;
+        }
+
+        private byte[] getSalt()
+        {
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            return salt;
+        }
     }
+}
+
+public class LoginWrapper
+{
+    public string username { get; set; }
+    public string password { get; set; }
 }

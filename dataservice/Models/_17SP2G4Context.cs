@@ -8,7 +8,7 @@ namespace dataservice.Models
     {
 
         public _17SP2G4Context(DbContextOptions options)
-            :base(options)
+            : base(options)
         {
 
         }
@@ -17,7 +17,7 @@ namespace dataservice.Models
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Certificate> Certificate { get; set; }
         public virtual DbSet<Faq> Faq { get; set; }
-        public virtual DbSet<Followingtraining> Followingtraining { get; set; }        
+        public virtual DbSet<Followingtraining> Followingtraining { get; set; }
         public virtual DbSet<Survey> Survey { get; set; }
         public virtual DbSet<Surveyanswer> Surveyanswer { get; set; }
         public virtual DbSet<Surveyquestion> Surveyquestion { get; set; }
@@ -29,7 +29,7 @@ namespace dataservice.Models
         public virtual DbSet<Trainingsurvey> Trainingsurvey { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Usercertificate> Usercertificate { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -384,16 +384,35 @@ namespace dataservice.Models
             {
                 entity.ToTable("USER");
 
+                entity.HasIndex(e => e.EmpId)
+                    .HasName("idx_empid_notnull")
+                    .IsUnique()
+                    .HasFilter("([empid] IS NOT NULL)");
+
+                entity.HasIndex(e => e.Username)
+                    .HasName("UK_USER_USERNAME")
+                    .IsUnique();
+
                 entity.Property(e => e.UserId).HasColumnName("userID");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasColumnName("email")
                     .HasMaxLength(320);
+
+                entity.Property(e => e.EmpId).HasColumnName("empID");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password");
+
+                entity.Property(e => e.Salt)
+                    .IsRequired()
+                    .HasColumnName("salt");
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasColumnName("username")
+                    .HasColumnType("nchar(40)");
             });
 
             modelBuilder.Entity<Usercertificate>(entity =>
