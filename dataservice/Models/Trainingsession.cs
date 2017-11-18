@@ -24,7 +24,6 @@ namespace dataservice.Models
         public Address Address { get; set; }
         [JsonIgnore]
         public Teacher Teacher { get; set; }
-        [JsonIgnore]
         public Traininginfo Training { get; set; }
         [JsonIgnore]
         public ICollection<Followingtraining> Followingtraining { get; set; }

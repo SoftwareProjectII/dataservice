@@ -8,7 +8,6 @@ namespace dataservice
     {
         public static void Main(string[] args)
         {
-            DataAccess.refreshEmployees().Wait();
             BuildWebHost(args).Run();
         }
 

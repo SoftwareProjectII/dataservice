@@ -22,7 +22,7 @@ namespace dataservice.Controllers
         [HttpGet]
         public IEnumerable<Trainingsession> GetTrainingsession()
         {
-            return _context.Trainingsession;
+            return _context.Trainingsession.Include(m => m.Training);
         }
 
         // GET: api/Trainingsessions/5
@@ -34,7 +34,7 @@ namespace dataservice.Controllers
                 return BadRequest(ModelState);
             }
 
-            var trainingsession = await _context.Trainingsession.SingleOrDefaultAsync(m => m.TrainingSessionId == id);
+            var trainingsession = await _context.Trainingsession.Include(m => m.Training).SingleOrDefaultAsync(m => m.TrainingSessionId == id);
 
             if (trainingsession == null)
             {

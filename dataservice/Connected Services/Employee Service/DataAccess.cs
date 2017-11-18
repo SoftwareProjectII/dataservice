@@ -31,8 +31,8 @@ namespace NorthwindModel
         public async static Task refreshEmployees()
         {
             Employees = new Dictionary<int, Employee>();
-            IEnumerable<Employee> test = await context.Employees.AddQueryOption("$select", "EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, ReportsTo").ExecuteAsync();
-            foreach (Employee emp in test)
+            IEnumerable<Employee> tempEmps = await context.Employees.AddQueryOption("$select", "EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, ReportsTo").ExecuteAsync();
+            foreach (Employee emp in tempEmps)
             {                
                 Employees[emp.EmployeeID] = emp;
             }

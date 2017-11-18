@@ -595,6 +595,7 @@ namespace NorthwindModel
         }
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Nullable<int> _ReportsTo;
+
         partial void OnReportsToChanging(global::System.Nullable<int> value);
         partial void OnReportsToChanged();       
           

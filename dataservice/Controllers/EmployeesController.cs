@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NorthwindModel;
+using System.Linq;
 
 namespace dataservice.Controllers
 {
@@ -9,26 +10,38 @@ namespace dataservice.Controllers
     [Route("api/Employees")]
     public class EmployeesController : Controller
     {
+        private readonly EmployeeProvider employeeProvider;
+
+        public EmployeesController(EmployeeProvider employeeProvider)
+        {
+            this.employeeProvider = employeeProvider;
+        }
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<Dictionary<int, Employee>> Get()
+        public Dictionary<int, Employee> Get()
         {
-            return await DataAccess.GetEmployees();
+            return employeeProvider.Employees;
+        }        
+
+        [HttpGet("test")]
+        public ActionResult Test()
+        {
+            return Ok(employeeProvider.Users);
         }
 
         // GET: api/Employees/5
         [HttpGet("{id}", Name = "Get")]
-        public async Task<Employee> Get(int id)
+        public Employee Get(int id)
         {
-            return await DataAccess.GetEmployeeByID(id);
+            return employeeProvider.Employees.Where(m => m.Value.EmployeeID == id).FirstOrDefault().Value;
         }
 
         // GET: api/employees/5/manages
         [HttpGet("{id}/manages")]
-        public async Task<Dictionary<int, Employee>> GetByReportsTo(int id)
+        public Dictionary<int, Employee> GetByReportsTo(int id)
         {
-            return await DataAccess.GetEmployeesByReportsTo(id);
+            return employeeProvider.Employees.Where(m => m.Value.ReportsTo == id).ToDictionary(m => m.Key, m => m.Value);
         }
     }
 }

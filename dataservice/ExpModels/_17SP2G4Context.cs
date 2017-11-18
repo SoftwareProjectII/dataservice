@@ -51,7 +51,7 @@ namespace dataservice.ExpModels
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasColumnName("username")
-                    .HasColumnType("nchar(40)");
+                    .HasMaxLength(50);
             });
         }
     }

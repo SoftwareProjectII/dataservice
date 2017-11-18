@@ -18,10 +18,12 @@ namespace dataservice.Controllers
     public class UsersController : Controller
     {
         private readonly _17SP2G4Context _context;
+        private readonly EmployeeProvider employeeProvider;
 
-        public UsersController(_17SP2G4Context context)
+        public UsersController(_17SP2G4Context context, EmployeeProvider employeeProvider)
         {
             _context = context;
+            this.employeeProvider = employeeProvider;
         }
 
         // GET: api/Users
@@ -46,56 +48,34 @@ namespace dataservice.Controllers
             {
                 return NotFound();
             }
-            
+
 
             return Ok(user);
         }
 
-
+        // GET: api/users/load
         [HttpGet("load")]
         public async Task<IActionResult> LoadUsers([FromRoute] int id)
         {
-
             List<int?> emps = await _context.User.Where(m => m.EmpId != null).Select(m => m.EmpId).ToListAsync();
-            Dictionary<int, Employee> employees = await DataAccess.GetEmployees();
+            Dictionary<int, Employee> Employees = employeeProvider.Employees.Where(m => !emps.Contains(m.Value.EmployeeID))
+                .ToDictionary(m => m.Key, m => m.Value);
 
-            foreach (int empId in emps)
+            foreach (Employee e in Employees.Values)
             {
-                employees.Remove(empId);
-            }
+                User user = new User();
+                user.Username = e.FirstName[0] + e.LastName;
+                user.EmpId = e.EmployeeID;
+                user.Salt = getSalt();
+                user.Password = HashPassword(e.EmployeeID.ToString() + e.LastName, user.Salt);
 
-            InitUsers(employees);
+                _context.User.Add(user);
+            }
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
 
-        // Test om te zien of het hashen werkte
-        [HttpGet("{id}/pwhash")]
-        public async Task<IActionResult> GetUserPwHash([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _context.User.SingleOrDefaultAsync(m => m.UserId == id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            List<string> pws = new List<string>();
-            pws.Add(user.Password);
-
-            Employee emp = await DataAccess.GetEmployeeByID((int)user.EmpId);
-
-            string pw = HashPassword(user.EmpId.ToString() + emp.LastName, user.Salt);
-            pws.Add(pw);
-
-            return Ok(pws);
-        }
-        
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
         public async Task<IActionResult> GetCertificates([FromRoute] int id)
@@ -206,7 +186,7 @@ namespace dataservice.Controllers
         // POST: api/Users/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginWrapper login)
-        {            
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -216,7 +196,7 @@ namespace dataservice.Controllers
             string password = login.password;
 
             User user = await _context.User.Where(m => m.Username == username).FirstOrDefaultAsync();
-            
+
             if (user == null || user.Password != password)
             {
                 return Unauthorized();
@@ -224,7 +204,7 @@ namespace dataservice.Controllers
 
             else return Ok(user);
         }
-        
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
