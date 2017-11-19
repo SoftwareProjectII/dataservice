@@ -24,21 +24,15 @@ namespace dataservice.Controllers
             return employeeProvider.Employees;
         }        
 
-        [HttpGet("test")]
-        public ActionResult Test()
-        {
-            return Ok(employeeProvider.Users);
-        }
-
         // GET: api/Employees/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "Employee_Single")]
         public Employee Get(int id)
         {
             return employeeProvider.Employees.Where(m => m.Value.EmployeeID == id).FirstOrDefault().Value;
         }
 
         // GET: api/employees/5/manages
-        [HttpGet("{id}/manages")]
+        [HttpGet("{id}/manages", Name = "Employee_Manages")]
         public Dictionary<int, Employee> GetByReportsTo(int id)
         {
             return employeeProvider.Employees.Where(m => m.Value.ReportsTo == id).ToDictionary(m => m.Key, m => m.Value);

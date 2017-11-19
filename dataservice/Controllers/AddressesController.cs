@@ -19,14 +19,14 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Addresses
-        [HttpGet]
+        [HttpGet(Name = "Addresses_List")]
         public IEnumerable<Address> GetAddress()
         {
             return _context.Address;
         }
 
         // GET: api/Addresses/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "Address_Single")]
         public async Task<IActionResult> GetAddress([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Addresses/5/trainingsessions
-        [HttpGet("{id}/trainingsessions")]
+        [HttpGet("{id}/trainingsessions", Name = "Address_Trainingsessions")]
         public async Task<IActionResult> GetTrainingsession([FromRoute] int id)
         {
             if (!ModelState.IsValid)

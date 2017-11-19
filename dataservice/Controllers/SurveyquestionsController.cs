@@ -26,7 +26,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Surveyquestions/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "Surveyquestion_Single")]
         public async Task<IActionResult> GetSurveyquestion([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Surveyquestions/5/survey
-        [HttpGet("{id}")]
+        [HttpGet("{id}/survey")]
         public async Task<IActionResult> GetSurvey([FromRoute] int id)
         {
             if (!ModelState.IsValid)

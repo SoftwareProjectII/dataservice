@@ -27,7 +27,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Certificates/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "Certificate_Single")]
         public async Task<IActionResult> GetCertificate([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -46,7 +46,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/certificates/5/users
-        [HttpGet("{id}/users")]
+        [HttpGet("{id}/users", Name = "Certificate_Users")]
         public async Task<IActionResult> GetUsers([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -65,7 +65,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Certificates/5/training
-        [HttpGet("{id}/training")]
+        [HttpGet("{id}/training", Name = "Certificate_Trainings")]
         public async Task<IActionResult> GetTraining([FromRoute] int id)
         {
             if (!ModelState.IsValid)

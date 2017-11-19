@@ -27,25 +27,6 @@ namespace dataservice.Controllers
             return _context.Trainingfaq;
         }
 
-        // GET: api/Trainingfaqs/5
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetTrainingfaq([FromRoute] int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var trainingfaq = await _context.Trainingfaq.SingleOrDefaultAsync(m => m.TrainingId == id);
-
-        //    if (trainingfaq == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(trainingfaq);
-        //}
-
         // PUT: api/Trainingfaqs/5
 
         [HttpPut("{id}")]
