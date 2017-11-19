@@ -22,12 +22,38 @@ namespace dataservice.Controllers
         [HttpGet]
         public IEnumerable<Trainingsession> GetTrainingsession()
         {
-            return _context.Trainingsession.Include(m => m.Training);
+            return _context.Trainingsession;
         }
 
         // GET: api/Trainingsessions/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTrainingsession([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var trainingsession = await _context.Trainingsession.SingleOrDefaultAsync(m => m.TrainingSessionId == id);
+
+            if (trainingsession == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(trainingsession);
+        }
+
+        // GET: api/Trainingsessions/loadreldata
+        [HttpGet("loadreldata")]
+        public IEnumerable<Trainingsession> GetTrainingsessionWithTraining()
+        {
+            return _context.Trainingsession.Include(m => m.Training);
+        }
+
+        // GET: api/Trainingsessions/loadreldata/5
+        [HttpGet("loadreldata/{id}")]
+        public async Task<IActionResult> GetTrainingsessionWithTraining([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {

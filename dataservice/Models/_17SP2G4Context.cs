@@ -75,7 +75,9 @@ namespace dataservice.Models
 
                 entity.ToTable("BOOK");
 
-                entity.Property(e => e.Isbn).HasColumnName("isbn");
+                entity.Property(e => e.Isbn)
+                    .HasColumnName("isbn")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Author)
                     .IsRequired()
@@ -143,6 +145,10 @@ namespace dataservice.Models
                 entity.Property(e => e.UserId).HasColumnName("userID");
 
                 entity.Property(e => e.TrainingSessionId).HasColumnName("trainingSessionID");
+
+                entity.Property(e => e.IsApproved).HasColumnName("isApproved");
+
+                entity.Property(e => e.IsCancelled).HasColumnName("isCancelled");
 
                 entity.HasOne(d => d.TrainingSession)
                     .WithMany(p => p.Followingtraining)
@@ -412,7 +418,7 @@ namespace dataservice.Models
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasColumnName("username")
-                    .HasColumnType("nchar(40)");
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Usercertificate>(entity =>

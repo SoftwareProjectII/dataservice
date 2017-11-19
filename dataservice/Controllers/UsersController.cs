@@ -95,9 +95,9 @@ namespace dataservice.Controllers
             return Ok(certificates);
         }
 
-        // GET: api/users/5/trainings
-        [HttpGet("{id}/trainings")]
-        public async Task<IActionResult> GetTrainings([FromRoute] int id)
+        // GET: api/users/5/trainingsessions
+        [HttpGet("{id}/trainingsessions")]
+        public async Task<IActionResult> GetTrainingSessions([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
