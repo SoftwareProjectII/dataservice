@@ -1,15 +1,8 @@
-﻿using dataservice.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.EntityFrameworkCore;
-using NorthwindModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dataservice
+namespace dataservice.Code.Scheduling
 {
     public class EmployeeRefreshService : HostedService
     {

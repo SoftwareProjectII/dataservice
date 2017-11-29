@@ -1,13 +1,10 @@
 ﻿using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 
 // Source https://www.stevejgordon.co.uk/asp-net-core-2-ihostedservice
-namespace dataservice
+namespace dataservice.Code.Scheduling
 {
     public abstract class HostedService : IHostedService
     {

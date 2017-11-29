@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using NorthwindModel;
 
 namespace dataservice
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();
