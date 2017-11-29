@@ -9,11 +9,13 @@ using System.Security.Cryptography;
 using System;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using dataservice.Code;
+using Microsoft.AspNetCore.Authorization;
 
 // Hashing: https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/consumer-apis/password-hashing
 
 namespace dataservice.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Users")]
     public class UsersController : Controller
@@ -160,29 +162,7 @@ namespace dataservice.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
-
-        // POST: api/Users/login
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginWrapper login)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            string username = login.username;
-            string password = login.password;
-
-            User user = await _context.User.Where(m => m.Username == username).FirstOrDefaultAsync();
-
-            if (user == null || user.Password != password)
-            {
-                return Unauthorized();
-            }
-
-            else return Ok(user);
-        }
-
+            
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
@@ -209,10 +189,4 @@ namespace dataservice.Controllers
             return _context.User.Any(e => e.UserId == id);
         }
     }
-}
-
-public class LoginWrapper
-{
-    public string username { get; set; }
-    public string password { get; set; }
 }

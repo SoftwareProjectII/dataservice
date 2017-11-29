@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using NorthwindModel;
 using System.Linq;
 using dataservice.Code;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dataservice.Controllers
-{
+{    
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Employees")]
     public class EmployeesController : Controller

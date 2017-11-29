@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dataservice.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Trainingsessions")]
     public class TrainingsessionsController : Controller

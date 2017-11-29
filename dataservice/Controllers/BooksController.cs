@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dataservice.Controllers
-{
+{    
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Books")]
     public class BooksController : Controller

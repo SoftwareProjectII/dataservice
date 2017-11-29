@@ -1,4 +1,5 @@
 ﻿using dataservice.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -6,7 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace dataservice.Controllers
-{
+{    
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Certificates")]
     public class CertificatesController : Controller
