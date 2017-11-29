@@ -41,7 +41,6 @@ namespace dataservice
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = "dataservice",
                         ValidAudience = "java app",
-                        RequireExpirationTime = false,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
                     };
                 });

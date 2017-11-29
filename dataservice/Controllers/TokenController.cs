@@ -11,6 +11,7 @@ using System.Text;
 using System.Security.Claims;
 
 using dataservice.Models;
+using System;
 
 namespace dataservice.Controllers
 {
@@ -85,6 +86,7 @@ namespace dataservice.Controllers
                 issuer: "dataservice",
                 audience: "java app",
                 claims: claims,
+                expires: DateTime.Now.AddSeconds(5),
                 signingCredentials: creds);
 
             return token;
