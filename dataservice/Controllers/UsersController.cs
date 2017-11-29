@@ -54,29 +54,7 @@ namespace dataservice.Controllers
 
 
             return Ok(user);
-        }
-
-        // Post: api/Users/salt
-        [AllowAnonymous]
-        [HttpPost("salt")]
-        public async Task<IActionResult> GetUserSalt([FromBody] UsernameWrapper usernameWrapper)
-        {
-            string username = usernameWrapper.username;
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Username == username);
-
-            if (user == null)
-            {
-                return NotFound(user);
-            }
-
-
-            return Ok(user.Salt);
-        }
+        }        
 
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
@@ -184,7 +162,29 @@ namespace dataservice.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
-            
+
+        // POST: api/Users/salt
+        [AllowAnonymous]
+        [HttpPost("salt")]
+        public async Task<IActionResult> GetUserSalt([FromBody] UsernameWrapper usernameWrapper)
+        {
+            string username = usernameWrapper.username;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.User.SingleOrDefaultAsync(m => m.Username == username);
+
+            if (user == null)
+            {
+                return NotFound(user);
+            }
+
+
+            return Ok(user.Salt);
+        }
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)

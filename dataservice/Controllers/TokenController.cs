@@ -50,9 +50,10 @@ namespace dataservice.Controllers
 
             JwtSecurityToken token = getToken(username, password);
 
-            return Ok(new
+            return Ok(new TokenAndUsername
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token)
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                userid = user.UserId
             });
         }
 
@@ -96,5 +97,11 @@ namespace dataservice.Controllers
     {
         public string Username { get; set; }
         public string Password { get; set; }
+    }
+
+    public class TokenAndUsername
+    {
+        public string token { get; set; }
+        public int userid { get; set; }
     }
 }
