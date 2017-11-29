@@ -1,7 +1,9 @@
 ﻿using dataservice.Code.Cron;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,8 +14,9 @@ namespace dataservice.Code.Scheduling
     {
         public event EventHandler<UnobservedTaskExceptionEventArgs> UnobservedTaskException;
         private readonly List<SchedulerTaskWrapper> _scheduledTasks = new List<SchedulerTaskWrapper>();
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public SchedulerHostedService(IEnumerable<IScheduledTask> scheduledTasks)
+        public SchedulerHostedService(IEnumerable<IScheduledTask> scheduledTasks, IServiceScopeFactory serviceScopeFactory)
         {
             var referenceTime = DateTime.UtcNow;
 
@@ -26,6 +29,8 @@ namespace dataservice.Code.Scheduling
                     NextRunTime = referenceTime
                 });
             }
+
+            _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -53,7 +58,23 @@ namespace dataservice.Code.Scheduling
                     {
                         try
                         {
-                            await taskToRun.Task.ExecuteAsync(cancellationToken);
+                            using (var scope = _serviceScopeFactory.CreateScope())
+                            {
+                                var taskType = taskToRun.Task.GetType();
+                                var method = taskType.GetMethod("Invoke", BindingFlags.Instance | BindingFlags.Public);
+                                var arguments = method.GetParameters()
+                                               .Select(a => a.ParameterType == typeof(CancellationToken) ? cancellationToken : scope.ServiceProvider.GetService(a.ParameterType))
+                                               .ToArray();
+                                if (typeof(Task).Equals(method.ReturnType))
+                                {
+                                    await (Task)method.Invoke(taskToRun.Task, arguments);
+                                }
+                                else
+                                {
+                                    method.Invoke(taskToRun.Task, arguments);
+                                }
+                            }
+                            
                         }
                         catch (Exception ex) 
                         {

@@ -30,10 +30,10 @@ namespace dataservice
             var connection = @"Data Source = dt-srv-web4.ehb.local; Initial Catalog = 17SP2G4; Persist Security Info = True; User ID = 17SP2G4; Password = vj13dnpy25;";
             services.AddDbContext<_17SP2G4Context>(options => options.UseSqlServer(connection));
 
-            services.AddSingleton<EmployeeProvider>(o =>new EmployeeProvider(new _17SP2G4Context(new DbContextOptionsBuilder<_17SP2G4Context>().UseSqlServer(connection).Options)));
-            services.AddSingleton<IHostedService, EmployeeRefreshService>();
-
+            services.AddSingleton<EmployeeProvider>(/*o =>new EmployeeProvider(new _17SP2G4Context(new DbContextOptionsBuilder<_17SP2G4Context>().UseSqlServer(connection).Options))*/);
+            
             services.AddSingleton<IScheduledTask, EmailReminderTask>();
+            services.AddSingleton<IScheduledTask, EmployeeRefreshTask>();
 
             services.AddScheduler((sender, args) =>
             {

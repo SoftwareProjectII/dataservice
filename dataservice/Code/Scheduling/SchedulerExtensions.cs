@@ -17,7 +17,8 @@ namespace dataservice.Code.Scheduling
         {
             return services.AddSingleton<IHostedService, SchedulerHostedService>(serviceProvider =>
             {
-                var instance = new SchedulerHostedService(serviceProvider.GetServices<IScheduledTask>());
+                var instance = new SchedulerHostedService(serviceProvider.GetServices<IScheduledTask>(), 
+                    services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>());
                 instance.UnobservedTaskException += unobservedTaskExceptionHandler;
                 return instance;
             });

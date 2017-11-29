@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace dataservice.Code
 {
     public class EmployeeProvider
-    {
-
-        private readonly _17SP2G4Context _context ;
+    {      
         private readonly NorthwindEntities empContext;
         public List<User> Users { get; set; }
 
@@ -20,12 +18,7 @@ namespace dataservice.Code
         public EmployeeProvider()
         {
             empContext = new NorthwindEntities(new Uri("http://services.odata.org/V3/Northwind/Northwind.svc"));
-        }
-        public EmployeeProvider(_17SP2G4Context context)
-        {
-            _context = context;
-            empContext = new NorthwindEntities(new Uri("http://services.odata.org/V3/Northwind/Northwind.svc"));
-        }
+        }        
 
         public async Task refreshEmployees()
         {

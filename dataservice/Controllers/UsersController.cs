@@ -53,30 +53,7 @@ namespace dataservice.Controllers
 
             return Ok(user);
         }
-
-        // GET: api/users/load
-        [HttpGet("load")]
-        public async Task<IActionResult> LoadUsers([FromRoute] int id)
-        {
-            List<int?> emps = await _context.User.Where(m => m.EmpId != null).Select(m => m.EmpId).ToListAsync();
-            Dictionary<int, Employee> Employees = employeeProvider.Employees.Where(m => !emps.Contains(m.Value.EmployeeID))
-                .ToDictionary(m => m.Key, m => m.Value);
-
-            foreach (Employee e in Employees.Values)
-            {
-                User user = new User();
-                user.Username = e.FirstName[0] + e.LastName;
-                user.EmpId = e.EmployeeID;
-                user.Salt = getSalt();
-                user.Password = HashPassword(e.EmployeeID.ToString() + e.LastName, user.Salt);
-
-                _context.User.Add(user);
-            }
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
-
+        
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
         public async Task<IActionResult> GetCertificates([FromRoute] int id)
@@ -230,42 +207,6 @@ namespace dataservice.Controllers
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.UserId == id);
-        }
-
-        private async void InitUsers(Dictionary<int, Employee> employees)
-        {
-            foreach (Employee e in employees.Values)
-            {
-                User user = new User();
-                user.Username = e.FirstName[0] + e.LastName;
-                user.EmpId = e.EmployeeID;
-                user.Salt = getSalt();
-                user.Password = HashPassword(e.EmployeeID.ToString() + e.LastName, user.Salt);
-
-                _context.User.Add(user);
-            }
-            await _context.SaveChangesAsync();
-        }
-
-        private string HashPassword(string password, byte[] salt)
-        {
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: password,
-            salt: salt,
-            prf: KeyDerivationPrf.HMACSHA1,
-            iterationCount: 1000,
-            numBytesRequested: 256 / 8));
-            return hashed;
-        }
-
-        private byte[] getSalt()
-        {
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-            return salt;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
+using System;
 
 namespace dataservice.Controllers
 {
@@ -42,6 +43,16 @@ namespace dataservice.Controllers
             }
 
             return Ok(trainingsession);
+        }
+
+        // GET: api/Trainingsessions
+        [HttpGet("future")]
+        public IEnumerable<Trainingsession> GetFutureTrainingsession()
+        {
+            return _context.Trainingsession
+                .Include(t => t.Address)
+                .Where(t => !t.Cancelled && DateTime.Compare(t.Date, DateTime.Now) > 0)
+                .ToList();
         }
 
         // GET: api/Trainingsessions/loadreldata

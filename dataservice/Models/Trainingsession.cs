@@ -23,7 +23,7 @@ namespace dataservice.Models
         [JsonIgnore]
         public Address Address { get; set; }
         [JsonIgnore]
-        public Teacher Teacher { get; set; }
+        public Teacher Teacher { get; set; }        
         public Traininginfo Training { get; set; }
         [JsonIgnore]
         public ICollection<Followingtraining> Followingtraining { get; set; }

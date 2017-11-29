@@ -17,7 +17,7 @@ namespace dataservice.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public int? EmpId { get; set; }
-        public byte[] Salt { get; set; }
+        public string Salt { get; set; }
     
 
         [JsonIgnore]
