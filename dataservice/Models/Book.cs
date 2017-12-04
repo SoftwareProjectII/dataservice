@@ -15,8 +15,6 @@ namespace dataservice.Models
         public string Author { get; set; }
         public double Price { get; set; }
         public string Publisher { get; set; }
-
-        [JsonIgnore]
         public ICollection<Trainingsbook> Trainingsbook { get; set; }
     }
 }

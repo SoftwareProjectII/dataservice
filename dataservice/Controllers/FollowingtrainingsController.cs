@@ -30,7 +30,7 @@ namespace dataservice.Controllers
 
         // PUT: api/Followingtrainings/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFollowingtraining([FromRoute] int id, [FromBody] Followingtraining followingtraining)
+        public async Task<IActionResult> PutFollowingtraining([FromRoute] int id,  [FromBody] Followingtraining followingtraining)
         {
             if (!ModelState.IsValid)
             {

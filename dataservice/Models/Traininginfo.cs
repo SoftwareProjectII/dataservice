@@ -21,16 +21,11 @@ namespace dataservice.Models
         public string InfoExam { get; set; }
         public string InfoPayment { get; set; }
         public double Price { get; set; }
-
-        [JsonIgnore]
-        public ICollection<Certificate> Certificate { get; set; }
-        [JsonIgnore]
-        public ICollection<Trainingfaq> Trainingfaq { get; set; }
-        [JsonIgnore]
+        
+        public ICollection<Certificate> Certificate { get; set; }        
+        public ICollection<Trainingfaq> Trainingfaq { get; set; }        
         public ICollection<Trainingsbook> Trainingsbook { get; set; }
-        [JsonIgnore]
         public ICollection<Trainingsession> Trainingsession { get; set; }
-        [JsonIgnore]
         public ICollection<Trainingsurvey> Trainingsurvey { get; set; }
     }
 }

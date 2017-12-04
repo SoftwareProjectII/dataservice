@@ -8,10 +8,8 @@ namespace dataservice.Models
         public int TrainingSessionId { get; set; }
         public bool IsApproved { get; set; }
         public bool IsCancelled { get; set; }
-
-        [JsonIgnore]
-        public Trainingsession TrainingSession { get; set; }
-        [JsonIgnore]
+        
+        public Trainingsession TrainingSession { get; set; }        
         public User User { get; set; }
     }
 }

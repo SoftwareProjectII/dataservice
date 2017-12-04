@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace dataservice.Controllers
-{    
-    [Authorize]
+{
     [Produces("application/json")]
     [Route("api/Addresses")]
     public class AddressesController : Controller
     {
-        private readonly _17SP2G4Context _context;
+        private readonly _17SP2G4Context _context;       
 
         public AddressesController(_17SP2G4Context context)
         {
@@ -21,22 +21,39 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Addresses
-        [HttpGet(Name = "Addresses_List")]
-        public IEnumerable<Address> GetAddress()
+        [HttpGet]
+        public IEnumerable<Address> GetAddress(bool loadrelated = false)
         {
+            if (loadrelated)
+            {
+                return _context.Address.Include(a => a.Trainingsession);
+            }
             return _context.Address;
         }
 
         // GET: api/Addresses/5
-        [HttpGet("{id}", Name = "Address_Single")]
-        public async Task<IActionResult> GetAddress([FromRoute] int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAddress([FromRoute] int id, [FromQuery] bool loadrelated = false)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var address = await _context.Address.SingleOrDefaultAsync(m => m.AddressId == id);
+            Address address;
+
+            if (loadrelated)
+            {
+                address = await _context.Address
+                    .Include(a => a.Trainingsession).ThenInclude(t => t.Teacher)
+                    .Include(a => a.Trainingsession).ThenInclude(t => t.Training)
+                    .Include(a => a.Trainingsession).ThenInclude(t => t.Followingtraining).ThenInclude(f => f.User)
+                    .SingleOrDefaultAsync(m => m.AddressId == id);
+            }
+            else
+            {
+                address = await _context.Address.SingleOrDefaultAsync(m => m.AddressId == id);
+            }            
 
             if (address == null)
             {
@@ -47,7 +64,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Addresses/5/trainingsessions
-        [HttpGet("{id}/trainingsessions", Name = "Address_Trainingsessions")]
+        [HttpGet("{id}/trainingsessions")]
         public async Task<IActionResult> GetTrainingsession([FromRoute] int id)
         {
             if (!ModelState.IsValid)

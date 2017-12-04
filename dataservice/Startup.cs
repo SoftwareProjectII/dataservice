@@ -19,7 +19,7 @@ using System.Text;
 namespace dataservice
 {
     public class Startup
-    {    
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -62,14 +62,15 @@ namespace dataservice
             {
                 c.SwaggerDoc("v1", new Info
                 {
-                    Title = "My API",
+                    Title = "Dataservice",
                     Version = "v1",
                     Contact = new Contact { Name = "Joshua", Email = "", Url = "https://www.youtube.com/watch?v=h6pPVYIpNFY" },
                     License = new License { Name = "Used under no license at all, I think", Url = "https://www.youtube.com/watch?v=xhH_PdKAigY&feature=youtu.be&t=2m25s" }
                 });
             });
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

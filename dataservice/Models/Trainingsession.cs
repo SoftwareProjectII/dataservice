@@ -20,12 +20,9 @@ namespace dataservice.Models
         public TimeSpan EndHour { get; set; }
         public bool Cancelled { get; set; }
 
-        [JsonIgnore]
         public Address Address { get; set; }
-        [JsonIgnore]
         public Teacher Teacher { get; set; }        
         public Traininginfo Training { get; set; }
-        [JsonIgnore]
         public ICollection<Followingtraining> Followingtraining { get; set; }
     }
 }

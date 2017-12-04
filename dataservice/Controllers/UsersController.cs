@@ -165,10 +165,9 @@ namespace dataservice.Controllers
 
         // POST: api/Users/salt
         [AllowAnonymous]
-        [HttpPost("salt")]
-        public async Task<IActionResult> GetUserSalt([FromBody] UsernameWrapper usernameWrapper)
-        {
-            string username = usernameWrapper.username;
+        [HttpGet("{username}/salt")]
+        public async Task<IActionResult> GetUserSalt([FromRoute] string username)
+        {        
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

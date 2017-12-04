@@ -23,21 +23,50 @@ namespace dataservice.Controllers
 
         // GET: api/Trainingsessions
         [HttpGet]
-        public IEnumerable<Trainingsession> GetTrainingsession()
+        public IEnumerable<Trainingsession> GetTrainingsession(bool loadrelated = false)
         {
+            if (loadrelated)
+            {
+                return _context.Trainingsession
+                    .Include(t => t.Address)
+                    .Include(t => t.Teacher).ThenInclude(t => t.Trainingsession)
+                    .Include(t => t.Training).ThenInclude(t => t.Certificate)
+                    .Include(m => m.Training).ThenInclude(t => t.Certificate)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingfaq)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingsbook)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingsession)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingsurvey)
+                    .Include(t => t.Followingtraining);
+            }
             return _context.Trainingsession;
         }
 
         // GET: api/Trainingsessions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTrainingsession([FromRoute] int id)
+        public async Task<IActionResult> GetTrainingsession([FromRoute] int id, bool loadrelated = false)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var trainingsession = await _context.Trainingsession.SingleOrDefaultAsync(m => m.TrainingSessionId == id);
+            Trainingsession trainingsession;
+
+            if (loadrelated)
+            {
+                trainingsession = await _context.Trainingsession
+                    .Include(t => t.Address)
+                    .Include(t => t.Teacher)
+                    .Include(t => t.Training)
+                    .Include(t => t.Followingtraining)
+                    .SingleOrDefaultAsync(m => m.TrainingSessionId == id);
+            }
+
+            else
+            {
+                trainingsession = await _context.Trainingsession.SingleOrDefaultAsync(m => m.TrainingSessionId == id);
+            }
+            
 
             if (trainingsession == null)
             {
@@ -57,42 +86,29 @@ namespace dataservice.Controllers
                 .ToList();
         }
 
-        // GET: api/Trainingsessions/loadreldata
-        [HttpGet("loadreldata")]
-        public IEnumerable<Trainingsession> GetTrainingsessionWithTraining()
-        {
-            return _context.Trainingsession.Include(m => m.Training);
-        }
-
-        // GET: api/Trainingsessions/loadreldata/5
-        [HttpGet("loadreldata/{id}")]
-        public async Task<IActionResult> GetTrainingsessionWithTraining([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var trainingsession = await _context.Trainingsession.Include(m => m.Training).SingleOrDefaultAsync(m => m.TrainingSessionId == id);
-
-            if (trainingsession == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(trainingsession);
-        }
-
         // GET: api/trainingsessions/5/users
         [HttpGet("{id}/users")]
-        public async Task<IActionResult> GetUsers([FromRoute] int id)
+        public async Task<IActionResult> GetUsers([FromRoute] int id, bool loadrelated = false)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var users = await _context.Followingtraining.Where(m => m.TrainingSessionId == id).Select(m => m.User).ToListAsync();
+            IEnumerable<User> users;
+
+            if (loadrelated)
+            {
+                users = await _context.Followingtraining
+                    .Where(m => m.TrainingSessionId == id)
+                    .Include(m => m.User).ThenInclude(u => u.Followingtraining)
+                    .Include(m => m.User).ThenInclude(u => u.Surveyanswer)
+                    .Include(m => m.User).ThenInclude(u => u.Usercertificate)
+                    .Select(m => m.User)
+                    .ToListAsync();
+            }
+
+            users = await _context.Followingtraining.Where(m => m.TrainingSessionId == id).Select(m => m.User).ToListAsync();
 
             if (users == null)
             {
@@ -104,35 +120,59 @@ namespace dataservice.Controllers
 
         // GET: api/trainingsessions/5/traininginfo
         [HttpGet("{id}/traininginfo")]
-        public async Task<IActionResult> GetTrainingInfo([FromRoute] int id)
+        public async Task<IActionResult> GetTrainingInfo([FromRoute] int id, bool loadrelated)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var training = await _context.Trainingsession.Include(m => m.Training).Where(m => m.TrainingSessionId == id).Select(m => m.Training).FirstOrDefaultAsync();
+            Traininginfo traininginfo;
+
+            if (loadrelated)
+            {
+                traininginfo = await _context.Trainingsession
+                    .Include(m => m.Training).ThenInclude(t => t.Certificate)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingfaq)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingsbook)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingsession)
+                    .Include(m => m.Training).ThenInclude(t => t.Trainingsurvey)
+                    .Where(m => m.TrainingSessionId == id)
+                    .Select(m => m.Training)
+                    .FirstOrDefaultAsync();
+            }
+
+            traininginfo = await _context.Trainingsession.Include(m => m.Training).Where(m => m.TrainingSessionId == id).Select(m => m.Training).FirstOrDefaultAsync();
 
 
-            if (training == null)
+            if (traininginfo == null)
             {
                 return NotFound();
             }
 
-            return Ok(training);
+            return Ok(traininginfo);
         }
 
         // GET: api/trainingsessions/5/teacher
         [HttpGet("{id}/teacher")]
-        public async Task<IActionResult> GetTeacher([FromRoute] int id)
+        public async Task<IActionResult> GetTeacher([FromRoute] int id, bool loadrelated)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var teacher = await _context.Teacher.SingleOrDefaultAsync(m => m.TeacherId == id);
+            Teacher teacher;
             
+            if (loadrelated)
+            {
+                teacher = await _context.Teacher
+                    .Include(t => t.Trainingsession)
+                    .SingleOrDefaultAsync(m => m.TeacherId == id);
+            }
+
+            teacher = await _context.Teacher.SingleOrDefaultAsync(m => m.TeacherId == id);
+
             if (teacher == null)
             {
                 return NotFound();

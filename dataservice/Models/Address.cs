@@ -17,8 +17,6 @@ namespace dataservice.Models
         public string StreetAddress { get; set; }
         public string Premise { get; set; }
         public string Country { get; set; }
-
-        [JsonIgnore]
         public ICollection<Trainingsession> Trainingsession { get; set; }
     }
 }
