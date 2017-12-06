@@ -14,6 +14,7 @@ namespace dataservice.Models
         public int TrainingId { get; set; }
         public string Titel { get; set; }
         public byte[] Picture { get; set; }
+
         public Traininginfo Training { get; set; }
         public ICollection<Usercertificate> Usercertificate { get; set; }
     }

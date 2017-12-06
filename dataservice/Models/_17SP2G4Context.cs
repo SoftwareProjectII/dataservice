@@ -101,9 +101,7 @@ namespace dataservice.Models
 
                 entity.Property(e => e.CertificateId).HasColumnName("certificateID");
 
-                entity.Property(e => e.Picture)
-                    .HasColumnName("picture")
-                    .HasColumnType("image");
+                entity.Property(e => e.Picture).HasColumnName("picture");
 
                 entity.Property(e => e.Titel)
                     .IsRequired()
