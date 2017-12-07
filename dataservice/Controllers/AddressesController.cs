@@ -84,17 +84,19 @@ namespace dataservice.Controllers
 
         // PUT: api/Addresses/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress([FromRoute] int id, [FromBody] Address address)
+        public async Task<IActionResult> PutAddress([FromRoute] int id, [FromBody] AddressUpdate u)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != address.AddressId)
+            if (id != u.AddressId)
             {
                 return BadRequest();
             }
+
+            Address address = new Address(u);
 
             _context.Entry(address).State = EntityState.Modified;
 
@@ -119,12 +121,14 @@ namespace dataservice.Controllers
 
         // POST: api/Addresses
         [HttpPost]
-        public async Task<IActionResult> PostAddress([FromBody] Address address)
+        public async Task<IActionResult> PostAddress([FromBody] AddressUpdate u)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            Address address = new Address(u);
 
             _context.Address.Add(address);
             await _context.SaveChangesAsync();
@@ -150,7 +154,7 @@ namespace dataservice.Controllers
             _context.Address.Remove(address);
             await _context.SaveChangesAsync();
 
-            return Ok(address);
+            return Ok(new AddressUpdate(address));
         }
 
         private bool AddressExists(int id)

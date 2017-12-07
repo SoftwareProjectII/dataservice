@@ -202,17 +202,19 @@ namespace dataservice.Controllers
 
         // PUT: api/Trainingsessions/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrainingsession([FromRoute] int id, [FromBody] Trainingsession trainingsession)
+        public async Task<IActionResult> PutTrainingsession([FromRoute] int id, [FromBody] TrainingsessionUpdate u)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != trainingsession.TrainingSessionId)
+            if (id != u.TrainingSessionId)
             {
                 return BadRequest();
             }
+
+            Trainingsession trainingsession = new Trainingsession(u);
 
             _context.Entry(trainingsession).State = EntityState.Modified;
 
@@ -237,14 +239,15 @@ namespace dataservice.Controllers
 
         // POST: api/Trainingsessions
         [HttpPost]
-        public async Task<IActionResult> PostTrainingsession([FromBody] Trainingsession trainingsession)
+        public async Task<IActionResult> PostTrainingsession([FromBody] TrainingsessionUpdate trainingsession)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            Trainingsession ts = new Trainingsession(trainingsession);
 
-            _context.Trainingsession.Add(trainingsession);
+            _context.Trainingsession.Add(ts);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTrainingsession", new { id = trainingsession.TrainingSessionId }, trainingsession);
@@ -268,7 +271,9 @@ namespace dataservice.Controllers
             _context.Trainingsession.Remove(trainingsession);
             await _context.SaveChangesAsync();
 
-            return Ok(trainingsession);
+
+
+            return Ok(new TrainingsessionUpdate(trainingsession));
         }
 
         private bool TrainingsessionExists(int id)

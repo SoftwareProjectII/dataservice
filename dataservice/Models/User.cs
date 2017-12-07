@@ -18,10 +18,12 @@ namespace dataservice.Models
         public string Email { get; set; }
         public int? EmpId { get; set; }
         public string Salt { get; set; }
-    
-        
+
+        [JsonIgnore]
         public ICollection<Followingtraining> Followingtraining { get; set; }
+        [JsonIgnore]
         public ICollection<Surveyanswer> Surveyanswer { get; set; }
+        [JsonIgnore]
         public ICollection<Usercertificate> Usercertificate { get; set; }
     }
 }
