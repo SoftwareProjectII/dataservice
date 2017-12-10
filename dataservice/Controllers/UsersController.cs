@@ -79,14 +79,25 @@ namespace dataservice.Controllers
 
         // GET: api/users/5/trainingsessions
         [HttpGet("{id}/trainingsessions")]
-        public async Task<IActionResult> GetTrainingSessions([FromRoute] int id)
+        public async Task<IActionResult> GetTrainingSessions([FromRoute] int id, bool future=false)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            List<Trainingsession> trainings;
 
-            var trainings = await _context.Followingtraining.Where(m => m.UserId == id).Select(m => m.TrainingSession).ToListAsync();
+            if (future)
+            {
+                trainings = await _context.Followingtraining
+                    .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) > DateTime.Now )
+                    .Select(m => m.TrainingSession)
+                    .ToListAsync();
+            }
+            else
+            {
+                trainings = await _context.Followingtraining.Where(m => m.UserId == id).Select(m => m.TrainingSession).ToListAsync();
+            }
 
             if (trainings == null)
             {

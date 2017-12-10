@@ -49,7 +49,7 @@ namespace dataservice.Controllers
 
         // GET: api/employees/5/manages/trainings
         [HttpGet("{id}/manages/trainings")]
-        public async Task<IActionResult> GetManagedUsersTrainings([FromRoute] int id)
+        public async Task<IActionResult> GetManagedUsersTrainings([FromRoute] int id, bool future = false)
         {
             if (!ModelState.IsValid)
             {
@@ -79,10 +79,23 @@ namespace dataservice.Controllers
                 return NotFound("Employee doesn't manage anyone");
             }
 
-            var followingtrainings = await _context.Followingtraining
-                .Include(f => f.TrainingSession).ThenInclude(t => t.Training)
-                .Include(f => f.User)
-                .Where(f => f.User.EmpId.HasValue && manages.Contains(f.User.EmpId.GetValueOrDefault())).ToListAsync();
+            List<Followingtraining> followingtrainings;
+
+            if (future)
+            {
+                followingtrainings = await _context.Followingtraining
+                    .Include(f => f.TrainingSession).ThenInclude(t => t.Training)
+                    .Include(f => f.User)
+                    .Where(f => f.User.EmpId.HasValue && manages.Contains(f.User.EmpId.GetValueOrDefault()) && f.TrainingSession.Date.Add(f.TrainingSession.StartHour) > DateTime.Now)
+                    .ToListAsync();
+            }
+            else
+            {
+                followingtrainings = await _context.Followingtraining
+                    .Include(f => f.TrainingSession).ThenInclude(t => t.Training)
+                    .Include(f => f.User)
+                    .Where(f => f.User.EmpId.HasValue && manages.Contains(f.User.EmpId.GetValueOrDefault())).ToListAsync();
+            }
 
             List<followingTrainingWrapper> fts = new List<followingTrainingWrapper>();
 
