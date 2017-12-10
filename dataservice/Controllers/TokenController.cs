@@ -15,7 +15,7 @@ using System;
 
 namespace dataservice.Controllers
 {
-    [Authorize]
+    [Authorize][AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Token")]
     public class TokenController : Controller

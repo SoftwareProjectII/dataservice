@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace dataservice.Controllers
 {    
-    [Authorize]
+    [Authorize][AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Books")]
     public class BooksController : Controller

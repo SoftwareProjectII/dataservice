@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace dataservice.Controllers
 {    
-    [Authorize]
+    [Authorize][AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Certificates")]
     public class CertificatesController : Controller
