@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
 
-namespace dataservice.Models
+namespace dataservice.ExpModels
 {
     public partial class Survey
     {
@@ -14,13 +14,10 @@ namespace dataservice.Models
         }
 
         public int SurveyId { get; set; }
-        [JsonIgnore]
+
         public ICollection<Surveyquestion> Surveyquestion { get; set; }
-        [JsonIgnore]
         public ICollection<Traininginfo> Traininginfo { get; set; }
-        [JsonIgnore]
         public ICollection<Trainingsession> Trainingsession { get; set; }
-        [JsonIgnore]
         public ICollection<Trainingsurvey> Trainingsurvey { get; set; }
     }
 }

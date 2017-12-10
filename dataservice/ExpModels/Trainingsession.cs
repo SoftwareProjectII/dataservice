@@ -1,28 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
-namespace dataservice.Models
+namespace dataservice.ExpModels
 {
     public partial class Trainingsession
     {
         public Trainingsession()
         {
             Followingtraining = new HashSet<Followingtraining>();
-        }
-
-        public Trainingsession(TrainingsessionUpdate u)
-        {
-            TrainingSessionId = u.TrainingSessionId;
-            AddressId = u.AddressId;
-            TeacherId = u.TeacherId;
-            TrainingId = u.TrainingId;
-            Date = u.Date;
-            StartHour = u.StartHour;
-            EndHour = u.EndHour;
-            Cancelled = u.Cancelled;
-            SurveyId = u.SurveyId;
         }
 
         public int TrainingSessionId { get; set; }

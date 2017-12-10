@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace dataservice.Controllers
 {
-    [Authorize][AllowAnonymous]
+    [Authorize]
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Trainingsessions")]
     public class TrainingsessionsController : Controller
@@ -31,6 +32,7 @@ namespace dataservice.Controllers
                     .Include(t => t.Address)
                     .Include(t => t.Teacher)
                     .Include(t => t.Training)
+                    .Include(t => t.Survey)
                     //.Include(m => m.Training).ThenInclude(t => t.Trainingfaq)
                     //.Include(m => m.Training).ThenInclude(t => t.Trainingsbook)
                     //.Include(m => m.Training).ThenInclude(t => t.Trainingsession)
@@ -58,6 +60,7 @@ namespace dataservice.Controllers
                     .Include(t => t.Teacher)
                     .Include(t => t.Training)
                     .Include(t => t.Followingtraining)
+                    .Include(t => t.Survey)
                     .SingleOrDefaultAsync(m => m.TrainingSessionId == id);
             }
 
@@ -65,7 +68,7 @@ namespace dataservice.Controllers
             {
                 trainingsession = await _context.Trainingsession.SingleOrDefaultAsync(m => m.TrainingSessionId == id);
             }
-            
+
 
             if (trainingsession == null)
             {
@@ -162,7 +165,7 @@ namespace dataservice.Controllers
             }
 
             Teacher teacher;
-            
+
             if (loadrelated)
             {
                 teacher = await _context.Teacher
@@ -197,6 +200,32 @@ namespace dataservice.Controllers
             }
 
             return Ok(address);
+        }
+
+        // GET: api/trainingsessions/5/survey
+        [HttpGet("{id}/survey")]
+        public async Task<IActionResult> GetSurvey([FromRoute] int id, bool loadrelated = false)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Survey survey;
+
+            if (loadrelated)
+            {
+
+            }
+
+            //var survey = await _context.Trainingsession.Where(m => m.TrainingSessionId == id).Select(m => m.Address).FirstOrDefaultAsync();
+
+            //if (address == null)
+            //{
+            //    return NotFound();
+            //}
+
+            return Ok(/*address*/);
         }
 
         // PUT: api/Trainingsessions/5

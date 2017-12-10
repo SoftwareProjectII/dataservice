@@ -21,6 +21,7 @@ namespace dataservice.Models
             StartHour = ts.StartHour;
             EndHour = ts.EndHour;
             Cancelled = ts.Cancelled;
+            SurveyId = ts.SurveyId;
         }
 
         public int TrainingSessionId { get; set; }
@@ -30,6 +31,7 @@ namespace dataservice.Models
         public DateTime Date { get; set; }
         public TimeSpan StartHour { get; set; }
         public TimeSpan EndHour { get; set; }
-        public bool Cancelled { get; set; }        
+        public bool Cancelled { get; set; }
+        public int? SurveyId { get; set; }
     }
 }
