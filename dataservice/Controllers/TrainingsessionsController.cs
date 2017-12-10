@@ -29,13 +29,12 @@ namespace dataservice.Controllers
             {
                 return _context.Trainingsession
                     .Include(t => t.Address)
-                    .Include(t => t.Teacher).ThenInclude(t => t.Trainingsession)
-                    .Include(t => t.Training).ThenInclude(t => t.Certificate)
-                    .Include(m => m.Training).ThenInclude(t => t.Certificate)
-                    .Include(m => m.Training).ThenInclude(t => t.Trainingfaq)
-                    .Include(m => m.Training).ThenInclude(t => t.Trainingsbook)
-                    .Include(m => m.Training).ThenInclude(t => t.Trainingsession)
-                    .Include(m => m.Training).ThenInclude(t => t.Trainingsurvey)
+                    .Include(t => t.Teacher)
+                    .Include(t => t.Training)
+                    //.Include(m => m.Training).ThenInclude(t => t.Trainingfaq)
+                    //.Include(m => m.Training).ThenInclude(t => t.Trainingsbook)
+                    //.Include(m => m.Training).ThenInclude(t => t.Trainingsession)
+                    //.Include(m => m.Training).ThenInclude(t => t.Trainingsurvey)
                     .Include(t => t.Followingtraining);
             }
             return _context.Trainingsession;
