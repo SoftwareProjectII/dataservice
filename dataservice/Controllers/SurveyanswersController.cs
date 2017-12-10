@@ -134,6 +134,33 @@ namespace dataservice.Controllers
             return CreatedAtAction("GetSurveyanswer", new { id = surveyanswer.AnswerId }, surveyanswer);
         }
 
+        // POST: api/Surveyanswers/answer
+        [HttpPost("answer")]
+        public async Task<IActionResult> AnswerSurvey([FromBody] AnswerWrapper answers)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<Surveyanswer> surveyanswers = new List<Surveyanswer>();
+
+            foreach (KeyValuePair<int, string> answer in answers.answers)
+            {
+                surveyanswers.Add(new Surveyanswer
+                {
+                    QuestionId = answer.Key,
+                    Content = answer.Value,
+                    UserId = answers.userid
+                });
+            }
+
+            await _context.Surveyanswer.AddRangeAsync(surveyanswers);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetSurveyanswer", surveyanswers);
+        }
+
         // DELETE: api/Surveyanswers/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSurveyanswer([FromRoute] int id)
@@ -159,5 +186,11 @@ namespace dataservice.Controllers
         {
             return _context.Surveyanswer.Any(e => e.AnswerId == id);
         }
+    }
+
+    public class AnswerWrapper
+    {
+        public int userid { get; set; }
+        public Dictionary<int, string> answers { get; set; }
     }
 }

@@ -215,17 +215,34 @@ namespace dataservice.Controllers
 
             if (loadrelated)
             {
+                //survey = await _context.Trainingsession
+                //    .Where(m => m.TrainingSessionId == id)
+                //    .Select(m => m.Survey)
+                //    .SelectMany(m => m.Surveyquestion).Select(m => m.Survey)
+                //    .FirstOrDefaultAsync();
 
+                int? surveyid = await _context.Trainingsession.Where(t => t.TrainingSessionId == id).Select(t => t.SurveyId).FirstOrDefaultAsync();
+
+
+                survey = await _context.Survey
+                    .Where(s => s.SurveyId == surveyid)
+                    .Include(s => s.Surveyquestion)
+                    .FirstOrDefaultAsync();
             }
 
-            //var survey = await _context.Trainingsession.Where(m => m.TrainingSessionId == id).Select(m => m.Address).FirstOrDefaultAsync();
+            else
+            {
+                survey = await _context.Trainingsession
+                    .Where(m => m.TrainingSessionId == id)
+                    .Select(m => m.Survey).FirstOrDefaultAsync();
+            }
 
-            //if (address == null)
-            //{
-            //    return NotFound();
-            //}
+            if (survey == null)
+            {
+                return NotFound();
+            }
 
-            return Ok(/*address*/);
+            return Ok(survey);
         }
 
         // PUT: api/Trainingsessions/5

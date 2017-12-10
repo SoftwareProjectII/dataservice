@@ -14,7 +14,6 @@ namespace dataservice.Models
         }
 
         public int SurveyId { get; set; }
-        [JsonIgnore]
         public ICollection<Surveyquestion> Surveyquestion { get; set; }
         [JsonIgnore]
         public ICollection<Traininginfo> Traininginfo { get; set; }
