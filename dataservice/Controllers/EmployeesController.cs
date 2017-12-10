@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Authorization;
 using dataservice.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace dataservice.Controllers
-{    
-    [Authorize][AllowAnonymous]
+{
+    [Authorize]
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Employees")]
     public class EmployeesController : Controller
@@ -29,7 +31,7 @@ namespace dataservice.Controllers
         public Dictionary<int, Employee> Get()
         {
             return employeeProvider.Employees;
-        }        
+        }
 
         // GET: api/Employees/5
         [HttpGet("{id}", Name = "Employee_Single")]
@@ -53,7 +55,7 @@ namespace dataservice.Controllers
             {
                 return BadRequest(ModelState);
             }
-                        
+
             var user = await _context.User.FirstOrDefaultAsync(m => m.UserId == id);
 
             if (user == null)
@@ -66,9 +68,13 @@ namespace dataservice.Controllers
                 return BadRequest("User is not an employee");
             }
 
-            var manages = employeeProvider.Employees.Where(m => m.Value.ReportsTo == user.EmpId).Select(e => e.Key).ToList();
+            List<int> manages;
 
-            if (manages == null)
+            try
+            {
+                manages = employeeProvider.Employees.Where(m => m.Value.ReportsTo == user.EmpId).Select(e => e.Key).ToList();
+            }
+            catch (ArgumentNullException ex)
             {
                 return NotFound("Employee doesn't manage anyone");
             }
@@ -79,7 +85,7 @@ namespace dataservice.Controllers
                 .Where(f => f.User.EmpId.HasValue && manages.Contains(f.User.EmpId.GetValueOrDefault())).ToListAsync();
 
             List<followingTrainingWrapper> fts = new List<followingTrainingWrapper>();
-            
+
             foreach (var ft in followingtrainings)
             {
                 followingTrainingWrapper tmp = new followingTrainingWrapper();
