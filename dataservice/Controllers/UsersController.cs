@@ -15,7 +15,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace dataservice.Controllers
 {
-    [Authorize][AllowAnonymous]
+    [Authorize]
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Users")]
     public class UsersController : Controller
@@ -54,7 +55,7 @@ namespace dataservice.Controllers
 
 
             return Ok(user);
-        }        
+        }
 
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
@@ -113,6 +114,42 @@ namespace dataservice.Controllers
             return Ok(answers);
         }
 
+        // GET: api/users/5/survey/questions?surveyid=1
+        [HttpGet("{id}/survey/questions")]
+        public async Task<IActionResult> GetSurveyanswers([FromRoute] int id, int? surveyid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<Surveyquestion> questions;
+
+            if (surveyid.HasValue)
+            {
+                //var answers = await _context.Surveyanswer.Where(u => u.UserId == id).Select(a => a.QuestionId).ToListAsync();
+
+                questions = await _context.Surveyquestion.
+                    Where(q => q.SurveyId == surveyid && q.Surveyanswer.FirstOrDefault(a => a.UserId == id) == null).
+                    ToListAsync();
+            }
+            else
+            {
+                questions = await _context.Surveyquestion.
+                   Where(q => q.Surveyanswer.FirstOrDefault(a => a.UserId == id) == null).
+                   ToListAsync();
+            }
+
+            //var answers = await _context.Surveyanswer.Where(m => m.UserId == id).ToListAsync();
+
+            if (questions == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(questions);
+        }
+
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
@@ -167,7 +204,7 @@ namespace dataservice.Controllers
         [AllowAnonymous]
         [HttpGet("{username}/salt")]
         public async Task<IActionResult> GetUserSalt([FromRoute] string username)
-        {        
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
