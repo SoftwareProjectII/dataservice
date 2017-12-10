@@ -87,7 +87,7 @@ namespace dataservice.Controllers
                 issuer: "dataservice",
                 audience: "java app",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddDays(7),
                 signingCredentials: creds);
 
             return token;

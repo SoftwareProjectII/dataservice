@@ -21,26 +21,46 @@ namespace dataservice.Controllers
             _context = context;
         }
 
-        // GET: api/Followingtrainings
+        // GET: api/followingtrainings
         [HttpGet]
-        public IEnumerable<Followingtraining> GetFollowingtraining()
+        public async Task<IActionResult> GetFollowingTraining(int userId = 0, int trainingSessionId = 0)
         {
-            return _context.Followingtraining;
+            if (userId == 0 && trainingSessionId == 0)
+            {
+                return Ok(_context.Followingtraining);
+            }
+
+            else if (userId == 0 || trainingSessionId == 0)
+            {
+                return BadRequest();
+            }
+
+            Followingtraining ft =  await _context.Followingtraining.Where(f => f.UserId == userId && f.TrainingSessionId == trainingSessionId)
+                .FirstOrDefaultAsync();
+            if (ft == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(ft);
         }
 
-        // PUT: api/Followingtrainings/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFollowingtraining([FromRoute] int id,  [FromBody] Followingtraining followingtraining)
+
+        // PUT: api/Followingtrainings?userid=5&trainingsessionid=5
+        [HttpPut]
+        public async Task<IActionResult> PutFollowingtraining(int userid, int trainingSessionId, [FromBody] FollowingtrainingUpdate u)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != followingtraining.UserId)
+            if (userid != u.UserId || trainingSessionId != u.TrainingSessionId)
             {
                 return BadRequest();
             }
+
+            Followingtraining followingtraining = new Followingtraining(u);
 
             _context.Entry(followingtraining).State = EntityState.Modified;
 
@@ -50,7 +70,7 @@ namespace dataservice.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FollowingtrainingExists(id))
+                if (!FollowingtrainingExists(userid, trainingSessionId))
                 {
                     return NotFound();
                 }
@@ -65,12 +85,14 @@ namespace dataservice.Controllers
 
         // POST: api/Followingtrainings
         [HttpPost]
-        public async Task<IActionResult> PostFollowingtraining([FromBody] Followingtraining followingtraining)
+        public async Task<IActionResult> PostFollowingtraining([FromBody] FollowingtrainingUpdate u)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            Followingtraining followingtraining = new Followingtraining(u);
 
             _context.Followingtraining.Add(followingtraining);
             try
@@ -79,7 +101,7 @@ namespace dataservice.Controllers
             }
             catch (DbUpdateException)
             {
-                if (FollowingtrainingExists(followingtraining.UserId))
+                if (FollowingtrainingExists(followingtraining.UserId, followingtraining.TrainingSessionId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -89,19 +111,22 @@ namespace dataservice.Controllers
                 }
             }
 
-            return CreatedAtAction("GetFollowingtraining", new { id = followingtraining.UserId }, followingtraining);
+            return CreatedAtAction("GetFollowingtraining", 
+                new { userId = followingtraining.UserId, trainingSessionId = followingtraining.TrainingSessionId }, followingtraining);
         }
 
         // DELETE: api/Followingtrainings/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFollowingtraining([FromRoute] int id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFollowingtraining(int userId, int trainingSessionId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var followingtraining = await _context.Followingtraining.SingleOrDefaultAsync(m => m.UserId == id);
+            var followingtraining = await _context.Followingtraining
+                .SingleOrDefaultAsync(m => m.UserId == userId && m.TrainingSessionId == trainingSessionId);
+
             if (followingtraining == null)
             {
                 return NotFound();
@@ -110,12 +135,12 @@ namespace dataservice.Controllers
             _context.Followingtraining.Remove(followingtraining);
             await _context.SaveChangesAsync();
 
-            return Ok(followingtraining);
+            return Ok(new FollowingtrainingUpdate(followingtraining));
         }
 
-        private bool FollowingtrainingExists(int id)
+        private bool FollowingtrainingExists(int userId, int traininSessionId)
         {
-            return _context.Followingtraining.Any(e => e.UserId == id);
+            return _context.Followingtraining.Any(e => e.UserId == userId && e.TrainingSessionId == traininSessionId);
         }
     }
 }

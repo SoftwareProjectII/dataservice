@@ -15,7 +15,9 @@ namespace dataservice.Models
         public string Titel { get; set; }
         public byte[] Picture { get; set; }
 
+        [JsonIgnore]
         public Traininginfo Training { get; set; }
+        [JsonIgnore]
         public ICollection<Usercertificate> Usercertificate { get; set; }
     }
 }

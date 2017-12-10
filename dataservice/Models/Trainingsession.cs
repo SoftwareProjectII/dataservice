@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace dataservice.Models
 {
@@ -11,6 +12,18 @@ namespace dataservice.Models
             Followingtraining = new HashSet<Followingtraining>();
         }
 
+        public Trainingsession(TrainingsessionUpdate u)
+        {
+            TrainingSessionId = u.TrainingSessionId;
+            AddressId = u.AddressId;
+            TeacherId = u.TeacherId;
+            TrainingId = u.TrainingId;
+            Date = u.Date;
+            StartHour = u.StartHour;
+            EndHour = u.EndHour;
+            Cancelled = u.Cancelled;
+        }
+
         public int TrainingSessionId { get; set; }
         public int AddressId { get; set; }
         public int TeacherId { get; set; }
@@ -19,9 +32,9 @@ namespace dataservice.Models
         public TimeSpan StartHour { get; set; }
         public TimeSpan EndHour { get; set; }
         public bool Cancelled { get; set; }
-
+        
         public Address Address { get; set; }
-        public Teacher Teacher { get; set; }        
+        public Teacher Teacher { get; set; }
         public Traininginfo Training { get; set; }
         public ICollection<Followingtraining> Followingtraining { get; set; }
     }

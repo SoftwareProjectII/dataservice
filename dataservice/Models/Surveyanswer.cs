@@ -8,8 +8,9 @@ namespace dataservice.Models
         public int QuestionId { get; set; }
         public string Content { get; set; }
         public int? UserId { get; set; }
-        
+        [JsonIgnore]
         public Surveyquestion Question { get; set; }
-        public User User { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }        
     }
 }

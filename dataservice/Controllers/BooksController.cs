@@ -28,7 +28,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Books/5
-        [HttpGet("{id}", Name = "Book_Single")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetBook([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -47,7 +47,7 @@ namespace dataservice.Controllers
         }
 
         // GET: api/Books/5/trainings
-        [HttpGet("{id}/trainings", Name = "Book_Trainings")]
+        [HttpGet("{id}/trainings")]
         public async Task<IActionResult> GetTrainings([FromRoute] int id)
         {
             if (!ModelState.IsValid)
