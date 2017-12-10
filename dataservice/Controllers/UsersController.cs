@@ -56,6 +56,7 @@ namespace dataservice.Controllers
 
             return Ok(user);
         }
+                
 
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
