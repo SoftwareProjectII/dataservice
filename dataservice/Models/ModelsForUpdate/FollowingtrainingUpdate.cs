@@ -7,6 +7,10 @@ namespace dataservice.Models
 {
     public class FollowingtrainingUpdate
     {
+        public FollowingtrainingUpdate()
+        {
+
+        }
         public FollowingtrainingUpdate(Followingtraining f)
         {
             UserId = f.UserId;

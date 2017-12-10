@@ -7,6 +7,10 @@ namespace dataservice.Models
 {
     public class AddressUpdate
     {
+        public AddressUpdate()
+        {
+
+        }
         public AddressUpdate(Address a)
         {
             AddressId = a.AddressId;

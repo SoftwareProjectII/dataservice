@@ -11,6 +11,7 @@ namespace dataservice.Controllers
 {
     [Produces("application/json")]
     [Route("api/Addresses")]
+    [Authorize]
     public class AddressesController : Controller
     {
         private readonly _17SP2G4Context _context;       
