@@ -13,13 +13,15 @@
             TrainingSessionId = u.TrainingSessionId;
             IsApproved = u.IsApproved;
             IsCancelled = u.IsCancelled;
+            IsDeclined = u.IsDeclined;
         }
 
         public int UserId { get; set; }
         public int TrainingSessionId { get; set; }
         public bool IsApproved { get; set; }
         public bool IsCancelled { get; set; }
-        
+        public bool IsDeclined { get; set; }
+
         public Trainingsession TrainingSession { get; set; }        
         public User User { get; set; }
     }

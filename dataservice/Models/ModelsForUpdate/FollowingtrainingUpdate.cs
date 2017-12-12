@@ -17,11 +17,13 @@ namespace dataservice.Models
             TrainingSessionId = f.TrainingSessionId;
             IsApproved = f.IsApproved;
             IsCancelled = f.IsCancelled;
+            IsDeclined = f.IsDeclined;
         }
 
         public int UserId { get; set; }
         public int TrainingSessionId { get; set; }
         public bool IsApproved { get; set; }
         public bool IsCancelled { get; set; }
+        public bool IsDeclined { get; set; }
     }
 }

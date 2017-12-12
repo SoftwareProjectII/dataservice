@@ -56,7 +56,7 @@ namespace dataservice.Controllers
 
             return Ok(user);
         }
-                
+
 
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
@@ -79,7 +79,7 @@ namespace dataservice.Controllers
 
         // GET: api/users/5/trainingsessions
         [HttpGet("{id}/trainingsessions")]
-        public async Task<IActionResult> GetTrainingSessions([FromRoute] int id, bool future=false)
+        public async Task<IActionResult> GetTrainingSessions([FromRoute] int id, bool? future, bool loadrelated = false)
         {
             if (!ModelState.IsValid)
             {
@@ -87,16 +87,79 @@ namespace dataservice.Controllers
             }
             List<Trainingsession> trainings;
 
-            if (future)
+            if (future.HasValue)
             {
-                trainings = await _context.Followingtraining
-                    .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) > DateTime.Now )
+                if (future.Value)
+                {
+                    if (loadrelated)
+                    {
+                        var ftrainings = await _context.Followingtraining
+                        .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) > DateTime.Now)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Address)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Survey)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Teacher)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Training)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Followingtraining)
+                        .ToListAsync();
+
+                        trainings = ftrainings.Select(f => f.TrainingSession).ToList();
+                    }
+                    else
+                    {
+                        trainings = await _context.Followingtraining
+                        .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) > DateTime.Now)
+                        .Select(m => m.TrainingSession)
+                        .ToListAsync();
+                    }
+                }
+                else
+                {
+                    if (loadrelated)
+                    {
+                        var ftrainings = await _context.Followingtraining
+                        .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) < DateTime.Now)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Address)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Survey)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Teacher)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Training)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Followingtraining)
+                        .ToListAsync();
+
+                        trainings = ftrainings.Select(f => f.TrainingSession).ToList();
+                    }
+                    else
+                    {
+                        trainings = await _context.Followingtraining
+                    .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) < DateTime.Now)
                     .Select(m => m.TrainingSession)
                     .ToListAsync();
+                    }
+                }
+
             }
             else
             {
-                trainings = await _context.Followingtraining.Where(m => m.UserId == id).Select(m => m.TrainingSession).ToListAsync();
+                if (loadrelated)
+                {
+                    var ftrainings = await _context.Followingtraining
+                        .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) < DateTime.Now)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Address)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Survey)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Teacher)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Training)
+                        .Include(t => t.TrainingSession).ThenInclude(t => t.Followingtraining)
+                        .ToListAsync();
+
+                    trainings = ftrainings.Select(f => f.TrainingSession).ToList();
+                }
+                else
+                {
+                    trainings = await _context.Followingtraining
+                    .Where(m => m.UserId == id)
+                    .Select(m => m.TrainingSession)
+                    .ToListAsync();
+                }
+                
             }
 
             if (trainings == null)

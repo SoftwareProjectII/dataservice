@@ -24,37 +24,64 @@ namespace dataservice.Controllers
 
         // GET: api/Trainingsessions
         [HttpGet]
-        public IEnumerable<Trainingsession> GetTrainingsession(bool loadrelated = false, bool future = false)
+        public IEnumerable<Trainingsession> GetTrainingsession(bool? future, bool loadrelated = false)
         {
-            if (loadrelated)
+            if (future.HasValue)
             {
-                if (future)
+                if (future.Value)
                 {
-                    return _context.Trainingsession
+                    if (loadrelated)
+                    {
+                        return _context.Trainingsession
                         .Where(t => t.Date.Add(t.StartHour) > DateTime.Now)
                     .Include(t => t.Address)
                     .Include(t => t.Teacher)
                     .Include(t => t.Training)
                     .Include(t => t.Survey)
                     .Include(t => t.Followingtraining);
+                    }
+                    else
+                    {
+                        return _context.Trainingsession
+                        .Where(t => t.Date.Add(t.StartHour) > DateTime.Now);
+                    }                    
                 }
-                return _context.Trainingsession
-                    .Include(t => t.Address)
-                    .Include(t => t.Teacher)
-                    .Include(t => t.Training)
-                    .Include(t => t.Survey)
-                    .Include(t => t.Followingtraining);
-                //.Include(m => m.Training).ThenInclude(t => t.Trainingfaq)
-                //.Include(m => m.Training).ThenInclude(t => t.Trainingsbook)
-                //.Include(m => m.Training).ThenInclude(t => t.Trainingsession)
-                //.Include(m => m.Training).ThenInclude(t => t.Trainingsurvey)
+                else
+                {
+                    if (loadrelated)
+                    {
+                        return _context.Trainingsession
+                        .Where(t => t.Date.Add(t.StartHour) < DateTime.Now)
+                        .Include(t => t.Address)
+                        .Include(t => t.Teacher)
+                        .Include(t => t.Training)
+                        .Include(t => t.Survey)
+                        .Include(t => t.Followingtraining);
+                    }
+                    else
+                    {
+                        return _context.Trainingsession
+                        .Where(t => t.Date.Add(t.StartHour) < DateTime.Now);
+                    }
+                }
             }
-            if (future)
+
+            else
             {
-                return _context.Trainingsession
-                    .Where(f => f.Date.Add(f.StartHour) > DateTime.Now);
+                if (loadrelated)
+                {
+                    return _context.Trainingsession
+                        .Include(t => t.Address)
+                        .Include(t => t.Teacher)
+                        .Include(t => t.Training)
+                        .Include(t => t.Survey)
+                        .Include(t => t.Followingtraining);
+                }
+                else
+                {
+                    return _context.Trainingsession;
+                }
             }
-            return _context.Trainingsession;
         }
 
         // GET: api/Trainingsessions/5
