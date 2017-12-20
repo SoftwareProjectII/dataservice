@@ -191,6 +191,23 @@ namespace dataservice.Controllers
             return Ok(trainings);
         }
 
+
+        [HttpGet("{id}/trainingsessioncount")]
+        public async Task<IActionResult> GetTrainingSessionCount([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            int trainings = await _context.Followingtraining
+                    .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) < DateTime.Now)
+                    .Select(m => m.TrainingSession)
+                    .CountAsync();
+
+            return Ok(trainings);
+        }
+
         // GET: api/users/5/surveyanswers
         [HttpGet("{id}/surveyanswers")]
         public async Task<IActionResult> GetSurveyanswers([FromRoute] int id)
