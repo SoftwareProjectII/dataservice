@@ -142,7 +142,7 @@ namespace dataservice.Controllers
                 if (loadrelated)
                 {
                     var ftrainings = await _context.Followingtraining
-                        .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) < DateTime.Now)
+                        .Where(m => m.UserId == id)
                         .Include(t => t.TrainingSession).ThenInclude(t => t.Address)
                         .Include(t => t.TrainingSession).ThenInclude(t => t.Survey)
                         .Include(t => t.TrainingSession).ThenInclude(t => t.Teacher)
