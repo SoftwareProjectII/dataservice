@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using dataservice.Models;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using dataservice.Code;
+using NorthwindModel;
 
 namespace dataservice.Controllers
 {
@@ -16,10 +18,12 @@ namespace dataservice.Controllers
     public class TrainingsessionsController : Controller
     {
         private readonly _17SP2G4Context _context;
+        private readonly EmployeeProvider employeeProvider;
 
-        public TrainingsessionsController(_17SP2G4Context context)
+        public TrainingsessionsController(_17SP2G4Context context, EmployeeProvider employeeProvider)
         {
             _context = context;
+            this.employeeProvider = employeeProvider;
         }
 
         // GET: api/Trainingsessions
@@ -160,6 +164,33 @@ namespace dataservice.Controllers
             }
 
             return Ok(users);
+        }
+
+        // GET
+        [HttpGet("{id}/employees")]
+        public async Task<IActionResult> GetEmployees([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IEnumerable<User> users = await _context.Followingtraining.Where(m => m.TrainingSessionId == id).Select(m => m.User).ToListAsync();
+            List<Employee> employees = new List<Employee>();
+            foreach (User u in users)
+            {
+                if (u.EmpId.HasValue)
+                {
+                    employees.Add(employeeProvider.Employees[u.EmpId.Value]);
+                }
+            }
+
+            if (employees == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(employees);
         }
 
         // GET: api/trainingsessions/5/traininginfo

@@ -11,8 +11,6 @@ namespace dataservice.Code
     public class EmployeeProvider
     {      
         private readonly NorthwindEntities empContext;
-        public List<User> Users { get; set; }
-
         public Dictionary<int, Employee> Employees { get; set; }
 
         public EmployeeProvider()
