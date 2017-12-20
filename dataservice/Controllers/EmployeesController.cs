@@ -133,6 +133,25 @@ namespace dataservice.Controllers
 
             return Ok(fts);
         }
+
+        // GET: api/employees/5/user
+        [HttpGet("{id}/user")]
+        public async Task<IActionResult> GetUser([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.User.Where(u => u.EmpId == id).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user.UserId);
+        }
     }
     class followingTrainingWrapper
     {

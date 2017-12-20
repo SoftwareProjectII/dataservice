@@ -1,5 +1,6 @@
 ﻿using dataservice.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -155,9 +156,37 @@ namespace dataservice.Controllers
             return Ok(certificate);
         }
 
+        // POST api/certificates/certificate
+        [HttpPost("usercertificate")]
+        public async Task<IActionResult> PostUserCertificates([FromBody] UserCertWrapper ucert)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (await _context.Usercertificate.Where(u => u.UserId == ucert.userid && u. TrainingId == ucert.Certificate.TrainingId).FirstOrDefaultAsync() != null)
+            {
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
+            await _context.Certificate.AddAsync(ucert.Certificate);
+            await _context.SaveChangesAsync();
+
+            await _context.Usercertificate.AddAsync(new Usercertificate { UserId = ucert.userid, CertificateId = ucert.Certificate.CertificateId, TrainingId = ucert.Certificate.TrainingId });
+            await _context.SaveChangesAsync();
+
+            return Ok(ucert.Certificate);
+        }
+
         private bool CertificateExists(int id)
         {
             return _context.Certificate.Any(e => e.CertificateId == id);
         }
+    }
+
+    public class UserCertWrapper
+    {
+        public Certificate Certificate { get; set; }
+        public int userid { get; set; }
     }
 }

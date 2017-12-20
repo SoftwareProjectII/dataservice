@@ -35,5 +35,7 @@ namespace dataservice.Models
         public ICollection<Trainingsession> Trainingsession { get; set; }
         [JsonIgnore]
         public ICollection<Trainingsurvey> Trainingsurvey { get; set; }
+        [JsonIgnore]
+        public ICollection<Usercertificate> Usercertificate { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace dataservice.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsercertificateExists(id))
+                if (!UsercertificateExists(id, usercertificate.CertificateId))
                 {
                     return NotFound();
                 }
@@ -79,7 +79,7 @@ namespace dataservice.Controllers
             }
             catch (DbUpdateException)
             {
-                if (UsercertificateExists(usercertificate.UserId))
+                if (UsercertificateExists(usercertificate.UserId, usercertificate.CertificateId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -113,9 +113,9 @@ namespace dataservice.Controllers
             return Ok(usercertificate);
         }
 
-        private bool UsercertificateExists(int id)
+        private bool UsercertificateExists(int userid, int certificateid)
         {
-            return _context.Usercertificate.Any(e => e.UserId == id);
+            return _context.Usercertificate.Any(e => e.UserId == userid && e.CertificateId == certificateid);
         }
     }
 }

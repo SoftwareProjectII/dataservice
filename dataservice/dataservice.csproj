@@ -5,39 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ExpModels\**" />
-    <Content Remove="ExpModels\**" />
-    <EmbeddedResource Remove="ExpModels\**" />
-    <None Remove="ExpModels\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Connected Services\Employee Service\DataAccess.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="ExpModels\Address.cs" />
-    <Compile Include="ExpModels\Book.cs" />
-    <Compile Include="ExpModels\Certificate.cs" />
-    <Compile Include="ExpModels\Faq.cs" />
-    <Compile Include="ExpModels\Followingtraining.cs" />
-    <Compile Include="ExpModels\Survey.cs" />
-    <Compile Include="ExpModels\Surveyanswer.cs" />
-    <Compile Include="ExpModels\Surveyquestion.cs" />
-    <Compile Include="ExpModels\Teacher.cs" />
-    <Compile Include="ExpModels\Trainingfaq.cs" />
-    <Compile Include="ExpModels\Traininginfo.cs" />
-    <Compile Include="ExpModels\Trainingsbook.cs" />
-    <Compile Include="ExpModels\Trainingsession.cs" />
-    <Compile Include="ExpModels\Trainingsurvey.cs" />
-    <Compile Include="ExpModels\User.cs" />
-    <Compile Include="ExpModels\Usercertificate.cs" />
-    <Compile Include="ExpModels\_17SP2G4Context.cs" />
   </ItemGroup>
 
   <ItemGroup>
