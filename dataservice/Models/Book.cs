@@ -11,11 +11,8 @@ namespace dataservice.Models
         }
 
         public long Isbn { get; set; }
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public double Price { get; set; }
-        public string Publisher { get; set; }
-        [JsonIgnore]
+        public string Url { get; set; }
+
         public ICollection<Trainingsbook> Trainingsbook { get; set; }
     }
 }

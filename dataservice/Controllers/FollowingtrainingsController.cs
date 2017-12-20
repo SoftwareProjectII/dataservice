@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace dataservice.Controllers
 {
-    [Authorize][AllowAnonymous]
+    [Authorize]
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/Followingtrainings")]
     public class FollowingtrainingsController : Controller
@@ -23,26 +24,42 @@ namespace dataservice.Controllers
 
         // GET: api/followingtrainings
         [HttpGet]
-        public async Task<IActionResult> GetFollowingTraining(int userId = 0, int trainingSessionId = 0)
+        public async Task<IActionResult> GetFollowingTraining(int? userId, int? trainingSessionId)
         {
-            if (userId == 0 && trainingSessionId == 0)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!userId.HasValue && !trainingSessionId.HasValue)
             {
                 return Ok(_context.Followingtraining);
             }
 
-            else if (userId == 0 || trainingSessionId == 0)
+            if (userId.HasValue && trainingSessionId.HasValue)
             {
-                return BadRequest();
+                Followingtraining ft = await _context.Followingtraining
+                    .Where(f => f.UserId == userId && f.TrainingSessionId == trainingSessionId)
+                    .FirstOrDefaultAsync();
+                return Ok(ft);
+            }           
+
+            List<Followingtraining> fts;
+
+            if (userId.HasValue)
+            {
+                fts = await _context.Followingtraining
+                    .Where(f => f.UserId == userId.Value)
+                    .ToListAsync();
+            }
+            else
+            {
+                fts = await _context.Followingtraining
+                    .Where(f => f.TrainingSessionId == trainingSessionId.Value)
+                    .ToListAsync();
             }
 
-            Followingtraining ft =  await _context.Followingtraining.Where(f => f.UserId == userId && f.TrainingSessionId == trainingSessionId)
-                .FirstOrDefaultAsync();
-            if (ft == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(ft);
+            return Ok(fts);
         }
 
 
@@ -111,7 +128,7 @@ namespace dataservice.Controllers
                 }
             }
 
-            return CreatedAtAction("GetFollowingtraining", 
+            return CreatedAtAction("GetFollowingtraining",
                 new { userId = followingtraining.UserId, trainingSessionId = followingtraining.TrainingSessionId }, followingtraining);
         }
 

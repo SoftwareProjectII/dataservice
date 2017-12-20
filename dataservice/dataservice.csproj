@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ExpModels\**" />
-    <Content Remove="ExpModels\**" />
-    <EmbeddedResource Remove="ExpModels\**" />
-    <None Remove="ExpModels\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Connected Services\Employee Service\DataAccess.cs" />
   </ItemGroup>
 

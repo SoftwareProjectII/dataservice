@@ -60,11 +60,17 @@ namespace dataservice.Controllers
 
         // GET: api/users/5/certificates
         [HttpGet("{id}/certificates")]
-        public async Task<IActionResult> GetCertificates([FromRoute] int id)
+        public async Task<IActionResult> GetCertificates([FromRoute] int id, int? trainingid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (trainingid.HasValue)
+            {
+                var cert = await _context.Usercertificate.Where(u => u.UserId == id && u.TrainingId == trainingid.Value).Select(u => u.CertificateId).FirstOrDefaultAsync();
+                return Ok(cert);
             }
 
             var certificates = await _context.Usercertificate.Where(m => m.UserId == id).Select(m => m.Certificate).ToListAsync();
@@ -75,6 +81,21 @@ namespace dataservice.Controllers
             }
 
             return Ok(certificates);
+        }
+
+        // TODO: get user traininginfos
+
+        [HttpGet("{id}/traininginfos")]
+        public async Task<IActionResult> GetTrainingInfos([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<Traininginfo> trainings = await _context.Followingtraining.Where(f => f.UserId == id).Select(f => f.TrainingSession.Training).Distinct().ToListAsync();
+            
+            return Ok(trainings);
         }
 
         // GET: api/users/5/trainingsessions
@@ -159,7 +180,7 @@ namespace dataservice.Controllers
                     .Select(m => m.TrainingSession)
                     .ToListAsync();
                 }
-                
+
             }
 
             if (trainings == null)

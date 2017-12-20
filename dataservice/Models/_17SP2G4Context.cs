@@ -14,6 +14,7 @@ namespace dataservice.Models
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Certificate> Certificate { get; set; }
+        public virtual DbSet<Companyinfo> Companyinfo { get; set; }
         public virtual DbSet<Faq> Faq { get; set; }
         public virtual DbSet<Followingtraining> Followingtraining { get; set; }
         public virtual DbSet<Survey> Survey { get; set; }
@@ -77,22 +78,9 @@ namespace dataservice.Models
                     .HasColumnName("isbn")
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.Author)
+                entity.Property(e => e.Url)
                     .IsRequired()
-                    .HasColumnName("author")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Price).HasColumnName("price");
-
-                entity.Property(e => e.Publisher)
-                    .IsRequired()
-                    .HasColumnName("publisher")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasColumnName("title")
-                    .HasMaxLength(100);
+                    .HasColumnName("url");
             });
 
             modelBuilder.Entity<Certificate>(entity =>
@@ -115,6 +103,19 @@ namespace dataservice.Models
                     .HasForeignKey(d => d.TrainingId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CERTIFICATE_TRAININGINFO");
+            });
+
+            modelBuilder.Entity<Companyinfo>(entity =>
+            {
+                entity.HasKey(e => e.CompanyId);
+
+                entity.ToTable("COMPANYINFO");
+
+                entity.Property(e => e.CompanyId)
+                    .HasColumnName("companyId")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CompanyName).HasColumnName("companyName");
             });
 
             modelBuilder.Entity<Faq>(entity =>
@@ -145,6 +146,8 @@ namespace dataservice.Models
                 entity.Property(e => e.IsApproved).HasColumnName("isApproved");
 
                 entity.Property(e => e.IsCancelled).HasColumnName("isCancelled");
+
+                entity.Property(e => e.IsDeclined).HasColumnName("isDeclined");
 
                 entity.HasOne(d => d.TrainingSession)
                     .WithMany(p => p.Followingtraining)
@@ -339,9 +342,13 @@ namespace dataservice.Models
                     .HasColumnName("date")
                     .HasColumnType("date");
 
-                entity.Property(e => e.EndHour).HasColumnName("endHour");
+                entity.Property(e => e.EndHour)
+                    .HasColumnName("endHour")
+                    .HasColumnType("time(5)");
 
-                entity.Property(e => e.StartHour).HasColumnName("startHour");
+                entity.Property(e => e.StartHour)
+                    .HasColumnName("startHour")
+                    .HasColumnType("time(5)");
 
                 entity.Property(e => e.SurveyId).HasColumnName("surveyID");
 
@@ -433,11 +440,13 @@ namespace dataservice.Models
 
             modelBuilder.Entity<Usercertificate>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.CertificateId });
+                entity.HasKey(e => new { e.UserId, e.TrainingId });
 
                 entity.ToTable("USERCERTIFICATE");
 
                 entity.Property(e => e.UserId).HasColumnName("userID");
+
+                entity.Property(e => e.TrainingId).HasColumnName("trainingID");
 
                 entity.Property(e => e.CertificateId).HasColumnName("certificateID");
 
@@ -446,6 +455,12 @@ namespace dataservice.Models
                     .HasForeignKey(d => d.CertificateId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERCERTIFICATE_CERTIFICATE");
+
+                entity.HasOne(d => d.Training)
+                    .WithMany(p => p.Usercertificate)
+                    .HasForeignKey(d => d.TrainingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERCERTIFICATE_TRAININGINFO");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Usercertificate)
