@@ -1,16 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace dataservice.Models
+namespace dataservice.ExpModels
 {
     public partial class _17SP2G4Context : DbContext
     {
-
-        public _17SP2G4Context(DbContextOptions options)
-            : base(options)
-        {
-
-        }
-
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Certificate> Certificate { get; set; }
@@ -29,6 +24,14 @@ namespace dataservice.Models
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Usercertificate> Usercertificate { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Data Source=dt-srv-web4.ehb.local;Initial Catalog=17SP2G4;Persist Security Info=True;User ID=17SP2G4;Password=vj13dnpy25;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
