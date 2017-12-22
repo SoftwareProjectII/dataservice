@@ -6,6 +6,7 @@ namespace dataservice.Models
     {
         public int TrainingId { get; set; }
         public long Isbn { get; set; }
+
         [JsonIgnore]
         public Book IsbnNavigation { get; set; }
         [JsonIgnore]

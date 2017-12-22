@@ -45,7 +45,7 @@ namespace dataservice.Controllers
                     .Followingtraining
                     .Where(f => f.UserId == user.UserId 
                     && f.TrainingSession.Date.Year == year 
-                    && f.TrainingSession.Date < DateTime.Now 
+                    && f.TrainingSession.Date.Add(f.TrainingSession.StartHour) < DateTime.Now 
                     && !f.TrainingSession.Cancelled 
                     && f.IsApproved 
                     && !f.IsCancelled

@@ -108,7 +108,7 @@ namespace dataservice.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTrainingsbook", new { id = trainingsbook.TrainingId }, trainingsbook);
+            return CreatedAtAction("GetTrainingsbook", new { trainingid = trainingsbook.TrainingId, isbn = trainingsbook.Isbn  }, trainingsbook);
         }
 
         // DELETE: api/Trainingsbooks/5

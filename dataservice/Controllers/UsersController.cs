@@ -201,7 +201,12 @@ namespace dataservice.Controllers
             }
 
             int trainings = await _context.Followingtraining
-                    .Where(m => m.UserId == id && m.TrainingSession.Date.Add(m.TrainingSession.StartHour) < DateTime.Now)
+                    .Where(f => f.UserId == id 
+                    && f.TrainingSession.Date.Add(f.TrainingSession.StartHour) < DateTime.Now
+                    && !f.TrainingSession.Cancelled
+                    && f.IsApproved
+                    && !f.IsCancelled
+                    && !f.IsDeclined)
                     .Select(m => m.TrainingSession)
                     .CountAsync();
 
