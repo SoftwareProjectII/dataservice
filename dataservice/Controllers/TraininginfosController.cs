@@ -155,6 +155,11 @@ namespace dataservice.Controllers
                 return BadRequest();
             }
 
+            if (traininginfo.SurveyId.HasValue && traininginfo.SurveyId.Value == 0)
+            {
+                traininginfo.SurveyId = null;
+            }
+
             _context.Entry(traininginfo).State = EntityState.Modified;
 
             try
@@ -183,6 +188,11 @@ namespace dataservice.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (traininginfo.SurveyId.HasValue && traininginfo.SurveyId.Value == 0)
+            {
+                traininginfo.SurveyId = null;
             }
 
             _context.Traininginfo.Add(traininginfo);
