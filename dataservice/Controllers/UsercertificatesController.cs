@@ -30,14 +30,14 @@ namespace dataservice.Controllers
 
         // PUT: api/Usercertificates/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsercertificate([FromRoute] int id, [FromBody] Usercertificate usercertificate)
+        public async Task<IActionResult> PutUsercertificate(int userid, int trainingid, [FromBody] Usercertificate usercertificate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != usercertificate.UserId)
+            if (userid != usercertificate.UserId || trainingid != usercertificate.TrainingId)
             {
                 return BadRequest();
             }
@@ -50,7 +50,7 @@ namespace dataservice.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsercertificateExists(id, usercertificate.CertificateId))
+                if (!UsercertificateExists(userid, usercertificate.CertificateId))
                 {
                     return NotFound();
                 }
@@ -92,16 +92,16 @@ namespace dataservice.Controllers
             return CreatedAtAction("GetUsercertificate", new { id = usercertificate.UserId }, usercertificate);
         }
 
-        // DELETE: api/Usercertificates/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUsercertificate([FromRoute] int id)
+        // DELETE: api/Usercertificates?trainingid=5&userid=5
+        [HttpDelete()]
+        public async Task<IActionResult> DeleteUsercertificate(int trainingid, int userid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var usercertificate = await _context.Usercertificate.SingleOrDefaultAsync(m => m.UserId == id);
+            var usercertificate = await _context.Usercertificate.SingleOrDefaultAsync(m => m.UserId == userid && m.TrainingId == trainingid);
             if (usercertificate == null)
             {
                 return NotFound();
