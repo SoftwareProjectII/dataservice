@@ -37,7 +37,7 @@ namespace dataservice.Code
                 SmtpClient client = new SmtpClient("smtp-mail.outlook.com")
                 {
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential("vandermerwe.joshua@hotmail.com", "Ikbendom14@pri"),
+                    Credentials = new NetworkCredential(string.Empty, string.Empty),
                     Port = 587,
                     EnableSsl = true
                 };
